@@ -1,4 +1,4 @@
-# Creative Coding Workshop: From Logic to Expression
+# Hagamole Pues
 
 Hosted at El Escampadero, Medellín
 

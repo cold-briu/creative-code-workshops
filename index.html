@@ -4,1526 +4,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Coding Workshop — From Logic to Expression</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&family=Space+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
-    <style>
-        :root {
-            --bg-deep: #0a0a0a;
-            --bg-card: #0d0d0d;
-            --bg-elevated: #141414;
-            --accent-primary: #33ff33;
-            --accent-secondary: #00cc00;
-            --accent-tertiary: #009900;
-            --text-primary: #33ff33;
-            --text-secondary: #00aa00;
-            --text-muted: #006600;
-            --border-subtle: rgba(51, 255, 51, 0.15);
-            --glow-primary: rgba(51, 255, 51, 0.4);
-            --glow-secondary: rgba(51, 255, 51, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Share Tech Mono', 'VT323', monospace;
-            background-color: var(--bg-deep);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            text-transform: uppercase;
-            font-size: 0.95rem;
-            letter-spacing: 0.03em;
-            text-shadow: 0 0 8px rgba(51, 255, 51, 0.5);
-        }
-
-        /* Animated background canvas */
-        .bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background:
-                radial-gradient(ellipse 60% 40% at 50% 50%, rgba(51, 255, 51, 0.04) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 30% at 80% 20%, rgba(51, 255, 51, 0.02) 0%, transparent 50%),
-                var(--bg-deep);
-        }
-
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image:
-                linear-gradient(rgba(51, 255, 51, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(51, 255, 51, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* CRT scanline effect */
-        .bg-grid::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 1px,
-                    rgba(0, 0, 0, 0.15) 1px,
-                    rgba(0, 0, 0, 0.15) 2px);
-            pointer-events: none;
-            animation: crt-flicker 0.05s infinite;
-        }
-
-        @keyframes crt-flicker {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.97;
-            }
-        }
-
-        /* CRT vignette effect */
-        .bg-canvas::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
-            pointer-events: none;
-            z-index: 999;
-        }
-
-        /* Floating orbs animation - phosphor green */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.3;
-            animation: pulse-orb 8s ease-in-out infinite;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: var(--accent-primary);
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent-tertiary);
-            top: 50%;
-            right: 5%;
-            animation-delay: -3s;
-        }
-
-        .orb-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--accent-primary);
-            bottom: 20%;
-            left: 40%;
-            animation-delay: -6s;
-        }
-
-        @keyframes pulse-orb {
-
-            0%,
-            100% {
-                opacity: 0.15;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.25;
-                transform: scale(1.1);
-            }
-        }
-
-        /* Typography */
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-family: 'VT323', 'Share Tech Mono', monospace;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(51, 255, 51, 0.6), 0 0 30px rgba(51, 255, 51, 0.3);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header - High contrast yellow bar */
-        .site-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 0;
-            background: var(--accent-primary);
-            border-bottom: 2px solid var(--bg-deep);
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-        }
-
-        .logo {
-            font-family: 'VT323', monospace;
-            font-weight: 400;
-            font-size: 1.5rem;
-            color: var(--bg-deep);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 0.1em;
-        }
-
-        .logo-mark {
-            width: 28px;
-            height: 28px;
-            background: var(--bg-deep);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            color: var(--accent-primary);
-        }
-
-        .nav-cta {
-            font-family: 'VT323', monospace;
-            font-size: 1.1rem;
-            font-weight: 400;
-            padding: 8px 20px;
-            background: var(--bg-deep);
-            border: 2px solid var(--bg-deep);
-            color: var(--accent-primary);
-            border-radius: 0;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            text-shadow: 0 0 10px rgba(51, 255, 51, 0.5);
-        }
-
-        .nav-cta:hover {
-            background: transparent;
-            color: var(--bg-deep);
-            border-color: var(--bg-deep);
-            text-shadow: none;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 140px 0 100px;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 900px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
-            background: transparent;
-            border: 1px solid var(--accent-primary);
-            border-radius: 0;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--accent-primary);
-            margin-bottom: 32px;
-            letter-spacing: 0.15em;
-            position: relative;
-        }
-
-        .hero-badge::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: var(--accent-primary);
-            opacity: 0;
-            animation: badge-flash 4s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes badge-flash {
-
-            0%,
-            90%,
-            100% {
-                opacity: 0;
-            }
-
-            95% {
-                opacity: 0.1;
-            }
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            line-height: 1.1;
-            margin-bottom: 32px;
-            color: var(--accent-primary);
-            text-shadow:
-                0 0 10px rgba(51, 255, 51, 0.8),
-                0 0 30px rgba(51, 255, 51, 0.5),
-                0 0 60px rgba(51, 255, 51, 0.3);
-        }
-
-        .hero h1 .highlight {
-            color: var(--accent-primary);
-            position: relative;
-            display: inline-block;
-        }
-
-        .hero h1 .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--accent-primary);
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            color: var(--accent-primary);
-            margin-bottom: 20px;
-            max-width: 600px;
-            font-weight: 600;
-        }
-
-        .hero-description {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            max-width: 650px;
-            margin-bottom: 48px;
-            line-height: 1.8;
-            text-transform: none;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 32px;
-            background: var(--accent-primary);
-            color: var(--bg-deep);
-            font-family: 'VT323', monospace;
-            font-weight: 400;
-            font-size: 1.25rem;
-            text-decoration: none;
-            border-radius: 0;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 40px var(--glow-primary), inset 0 0 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.08em;
-            border: 2px solid var(--accent-primary);
-            text-shadow: none;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
-            transition: left 0.4s ease;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            background: transparent;
-            color: var(--accent-primary);
-            box-shadow: 0 0 60px var(--glow-primary);
-        }
-
-        .cta-button .arrow {
-            transition: transform 0.2s ease;
-            font-family: 'VT323', monospace;
-            font-size: 1.4rem;
-        }
-
-        .cta-button:hover .arrow {
-            transform: translateX(4px);
-        }
-
-        /* Section styling */
-        section {
-            padding: 120px 0;
-            position: relative;
-        }
-
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 20px;
-            padding: 8px 16px;
-            border: 1px solid var(--border-subtle);
-            background: var(--bg-card);
-            text-shadow: 0 0 10px rgba(51, 255, 51, 0.4);
-        }
-
-        .section-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            margin-bottom: 24px;
-            color: var(--accent-primary);
-        }
-
-        .section-description {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 60px;
-            text-transform: none;
-            line-height: 1.8;
-        }
-
-        /* Qualification Section */
-        .qualification {
-            background: transparent;
-        }
-
-        .persona-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2px;
-            background: var(--border-subtle);
-        }
-
-        .persona-card {
-            padding: 40px;
-            background: var(--bg-card);
-            border: none;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Grid texture inside cards */
-        .persona-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                linear-gradient(rgba(51, 255, 51, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(51, 255, 51, 0.02) 1px, transparent 1px);
-            background-size: 20px 20px;
-            pointer-events: none;
-        }
-
-        .persona-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--accent-primary);
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
-            transform-origin: top;
-        }
-
-        .persona-card:hover::before {
-            transform: scaleY(1);
-        }
-
-        .persona-card:hover {
-            background: var(--bg-elevated);
-            box-shadow: 0 0 40px rgba(51, 255, 51, 0.1);
-        }
-
-        .persona-icon {
-            width: 48px;
-            height: 48px;
-            background: transparent;
-            border: 1px solid var(--accent-primary);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .persona-card h3 {
-            font-size: 1rem;
-            margin-bottom: 12px;
-            color: var(--accent-primary);
-            position: relative;
-            z-index: 1;
-        }
-
-        .persona-card p {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            text-transform: none;
-            position: relative;
-            z-index: 1;
-        }
-
-        .persona-card.featured {
-            background: rgba(51, 255, 51, 0.03);
-            border: 1px solid var(--accent-primary);
-        }
-
-        .persona-card.featured .persona-icon {
-            background: var(--accent-primary);
-            color: var(--bg-deep);
-        }
-
-        /* Curriculum Section */
-        .curriculum {
-            background: transparent;
-        }
-
-        .journey-timeline {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            background: var(--border-subtle);
-        }
-
-        .journey-timeline::before {
-            content: '';
-            position: absolute;
-            left: 30px;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: var(--accent-primary);
-            z-index: 1;
-        }
-
-        .journey-step {
-            display: grid;
-            grid-template-columns: 60px 1fr;
-            gap: 0;
-            align-items: stretch;
-            background: var(--bg-card);
-        }
-
-        .step-number {
-            width: 60px;
-            background: var(--bg-deep);
-            border: none;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'VT323', monospace;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--accent-primary);
-            position: relative;
-            z-index: 2;
-            border-right: 1px solid var(--accent-primary);
-        }
-
-        .journey-step:nth-child(2) .step-number {
-            color: var(--accent-primary);
-        }
-
-        .journey-step:nth-child(3) .step-number {
-            color: var(--accent-primary);
-        }
-
-        .step-content {
-            background: var(--bg-card);
-            border: none;
-            border-radius: 0;
-            padding: 40px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .step-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                linear-gradient(rgba(51, 255, 51, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(51, 255, 51, 0.015) 1px, transparent 1px);
-            background-size: 20px 20px;
-            pointer-events: none;
-        }
-
-        .step-content:hover {
-            background: var(--bg-elevated);
-            box-shadow: inset 0 0 60px rgba(51, 255, 51, 0.03);
-        }
-
-        .step-title {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            letter-spacing: 0.15em;
-        }
-
-        .journey-step:nth-child(2) .step-title {
-            color: var(--text-secondary);
-        }
-
-        .journey-step:nth-child(3) .step-title {
-            color: var(--text-secondary);
-        }
-
-        .step-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: 16px;
-            color: var(--accent-primary);
-        }
-
-        .step-outcome {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 16px;
-            background: transparent;
-            border: 1px solid var(--accent-primary);
-            border-radius: 0;
-            font-size: 0.75rem;
-            color: var(--accent-primary);
-            margin-bottom: 20px;
-        }
-
-        .step-content>p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 0.85rem;
-            text-transform: none;
-        }
-
-        /* About Section */
-        .about {
-            background: transparent;
-        }
-
-        .about-card {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 60px;
-            align-items: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 0;
-            padding: 60px;
-            position: relative;
-        }
-
-        .about-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                linear-gradient(rgba(51, 255, 51, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(51, 255, 51, 0.02) 1px, transparent 1px);
-            background-size: 30px 30px;
-            pointer-events: none;
-        }
-
-        .about-visual {
-            position: relative;
-            z-index: 1;
-        }
-
-        .about-avatar {
-            width: 100%;
-            aspect-ratio: 1;
-            background: transparent;
-            border: 2px solid var(--accent-primary);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-avatar::before {
-            content: '';
-            position: absolute;
-            inset: 8px;
-            background: var(--bg-deep);
-            border: 1px solid var(--border-subtle);
-        }
-
-        .about-avatar::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle, rgba(51, 255, 51, 0.1) 0%, transparent 50%);
-            transform: translate(-50%, -50%);
-        }
-
-        .about-avatar span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .about-badge {
-            position: absolute;
-            bottom: -12px;
-            right: -12px;
-            padding: 10px 16px;
-            background: var(--accent-primary);
-            border: none;
-            border-radius: 0;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--bg-deep);
-            letter-spacing: 0.1em;
-            font-weight: 600;
-        }
-
-        .about-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .about-content h3 {
-            font-size: 1.75rem;
-            margin-bottom: 8px;
-            color: var(--accent-primary);
-        }
-
-        .about-tagline {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            letter-spacing: 0.1em;
-        }
-
-        .about-content p {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            text-transform: none;
-        }
-
-        /* Logistics Section */
-        .logistics {
-            background: transparent;
-        }
-
-        .logistics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2px;
-            margin-bottom: 60px;
-            background: var(--border-subtle);
-        }
-
-        .logistics-item {
-            padding: 28px;
-            background: var(--bg-card);
-            border: none;
-            border-radius: 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .logistics-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2px;
-            height: 0;
-            background: var(--accent-primary);
-            transition: height 0.3s ease;
-        }
-
-        .logistics-item:hover::before {
-            height: 100%;
-        }
-
-        .logistics-item:hover {
-            background: var(--bg-elevated);
-        }
-
-        .logistics-icon {
-            width: 40px;
-            height: 40px;
-            background: transparent;
-            border: 1px solid var(--accent-primary);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .logistics-item h4 {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-        }
-
-        .logistics-item p {
-            font-size: 0.9rem;
-            color: var(--accent-primary);
-        }
-
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2px;
-            max-width: 600px;
-            background: var(--accent-primary);
-        }
-
-        .pricing-card {
-            padding: 40px;
-            background: var(--bg-card);
-            border: none;
-            border-radius: 0;
-            text-align: left;
-            transition: all 0.3s ease;
-        }
-
-        .pricing-card.featured {
-            background: var(--bg-deep);
-            border: 2px solid var(--accent-primary);
-            transform: none;
-        }
-
-        .pricing-label {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 16px;
-        }
-
-        .pricing-card.featured .pricing-label {
-            color: var(--accent-primary);
-        }
-
-        .pricing-amount {
-            font-family: 'VT323', monospace;
-            font-size: 2.75rem;
-            font-weight: 400;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
-        }
-
-        .pricing-card.featured .pricing-amount {
-            color: var(--accent-primary);
-            text-shadow:
-                0 0 10px rgba(51, 255, 51, 0.6),
-                0 0 30px rgba(51, 255, 51, 0.3);
-        }
-
-        .pricing-currency {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .pricing-note {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 16px;
-            text-transform: none;
-        }
-
-        .pricing-card.featured .pricing-note {
-            color: var(--text-secondary);
-        }
-
-        /* Community Section */
-        .community {
-            background: transparent;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2px;
-            background: var(--border-subtle);
-        }
-
-        .benefit-card {
-            padding: 32px;
-            background: var(--bg-card);
-            border: none;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .benefit-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent-primary);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-            transform-origin: left;
-        }
-
-        .benefit-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .benefit-card:hover {
-            background: var(--bg-elevated);
-            box-shadow: 0 0 40px rgba(51, 255, 51, 0.05);
-        }
-
-        .benefit-icon {
-            width: 44px;
-            height: 44px;
-            background: transparent;
-            border: 1px solid var(--accent-primary);
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            margin-bottom: 20px;
-        }
-
-        .benefit-card h4 {
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-            color: var(--accent-primary);
-        }
-
-        .benefit-card p {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            text-transform: none;
-        }
-
-        /* CTA Section */
-        .final-cta {
-            padding: 160px 0;
-            text-align: left;
-            position: relative;
-        }
-
-        .final-cta::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(51, 255, 51, 0.06) 0%, transparent 60%);
-        }
-
-        .final-cta::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, var(--accent-primary), transparent);
-        }
-
-        .final-cta-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-        }
-
-        .final-cta h2 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 40px;
-            color: var(--accent-primary);
-        }
-
-        .final-cta h2 .highlight {
-            color: var(--accent-primary);
-            position: relative;
-        }
-
-        .final-cta h2 .highlight::after {
-            content: '_';
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            50% {
-                opacity: 1;
-            }
-
-            51%,
-            100% {
-                opacity: 0;
-            }
-        }
-
-        .cta-button-large {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            padding: 20px 44px;
-            background: var(--accent-primary);
-            color: var(--bg-deep);
-            font-family: 'VT323', monospace;
-            font-weight: 400;
-            font-size: 1.4rem;
-            text-decoration: none;
-            border-radius: 0;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 50px var(--glow-primary), inset 0 0 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid var(--accent-primary);
-            letter-spacing: 0.08em;
-            text-shadow: none;
-        }
-
-        .cta-button-large::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
-            transition: left 0.4s ease;
-        }
-
-        .cta-button-large:hover::before {
-            left: 100%;
-        }
-
-        .cta-button-large:hover {
-            background: transparent;
-            color: var(--accent-primary);
-            box-shadow: 0 0 80px var(--glow-primary);
-        }
-
-        .cta-note {
-            margin-top: 32px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: none;
-        }
-
-        .cta-note strong {
-            color: var(--accent-primary);
-        }
-
-        /* Footer */
-        footer {
-            padding: 32px 0;
-            border-top: 1px solid var(--border-subtle);
-            text-align: left;
-        }
-
-        footer p {
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .about-card {
-                grid-template-columns: 1fr;
-                text-align: left;
-                padding: 40px;
-            }
-
-            .about-visual {
-                max-width: 200px;
-            }
-
-            .journey-timeline::before {
-                left: 22px;
-            }
-
-            .journey-step {
-                grid-template-columns: 44px 1fr;
-            }
-
-            .step-number {
-                width: 44px;
-                font-size: 1rem;
-            }
-
-            .step-content {
-                padding: 24px;
-            }
-
-            .final-cta {
-                text-align: left;
-            }
-        }
-
-        @media (max-width: 600px) {
-            section {
-                padding: 80px 0;
-            }
-
-            .hero {
-                padding: 100px 0 80px;
-            }
-
-            .cta-button,
-            .cta-button-large {
-                width: 100%;
-                justify-content: center;
-                padding: 18px 24px;
-            }
-
-            .pricing-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .persona-grid,
-            .benefits-grid,
-            .logistics-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .header-inner {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .nav-cta {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        /* Terminal cursor blink on interactive elements */
-        .cta-button::after,
-        .cta-button-large::after {
-            content: '';
-            display: inline-block;
-            width: 2px;
-            height: 1em;
-            background: currentColor;
-            margin-left: 8px;
-            animation: cursor-blink 1s step-end infinite;
-            opacity: 0;
-        }
-
-        .cta-button:hover::after,
-        .cta-button-large:hover::after {
-            opacity: 1;
-        }
-
-        @keyframes cursor-blink {
-
-            0%,
-            50% {
-                opacity: 1;
-            }
-
-            51%,
-            100% {
-                opacity: 0;
-            }
-        }
-
-        /* Selection color */
-        ::selection {
-            background: var(--accent-primary);
-            color: var(--bg-deep);
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-deep);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 0;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
-        }
-    </style>
+    <title>Hagamole Pues</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <!-- Background elements -->
-    <div class="bg-canvas"></div>
-    <div class="bg-grid"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-
-    <!-- Header -->
-    <header class="site-header">
-        <div class="container header-inner">
-            <a href="#" class="logo">
-                <span class="logo-mark">&lt;/&gt;</span>
-                Creative Code
-            </a>
-            <a href="#cta" class="nav-cta">[_REGISTER]</a>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span>&gt;_</span>
-                    <span>Workshop // Feb 2026</span>
-                </div>
-                <h1>Transform Your Art<br>Through <span class="highlight">Code</span></h1>
-                <p class="hero-subtitle">&gt; A gateway for visual artists to claim their space in a digital-first
-                    world.</p>
-                <p class="hero-description">This hands-on workshop bridges the gap between technical logic and creative
-                    soul. Using our unique "guided-code to creative-challenge" methodology, you will transform real-time
-                    data and hardware into immersive sensory experiences.</p>
-                <a href="#cta" class="cta-button">
-                    SECURE_MY_SPOT // 10_SEATS
-                    <span class="arrow">&rarr;</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Qualification Section -->
-    <section class="qualification">
-        <div class="container">
-            <span class="section-label">
-                <span>[01]</span>
-                Target_Users
-            </span>
-            <h2 class="section-title">Is This For You?</h2>
-            <p class="section-description">This experience is specifically designed for creatives ready to expand their
-                toolkit.</p>
-
-            <div class="persona-grid">
-                <div class="persona-card">
-                    <div class="persona-icon">[A]</div>
-                    <h3>Visual Artists</h3>
-                    <p>Looking to expand their medium into the digital realm and create work that lives beyond the
-                        canvas.</p>
-                </div>
-                <div class="persona-card">
-                    <div class="persona-icon">[B]</div>
-                    <h3>Code Beginners</h3>
-                    <p>Who want to learn logic through creation, not just theory. No prior programming experience
-                        required.</p>
-                </div>
-                <div class="persona-card featured">
-                    <div class="persona-icon">[*]</div>
-                    <h3>Ideal Persona</h3>
-                    <p>Digital artists ready to integrate code into their professional workflow and unlock new creative
-                        possibilities.</p>
+<body class="text-slate-900">
+    <main class="min-h-screen flex flex-col relative z-10">
+        <!-- Hero -->
+        <section class="flex-1 flex items-center px-4 py-12">
+            <div
+                class="mx-auto w-full max-w-[70vw] px-6 py-12 text-center bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                <p class="text-xs font-medium tracking-[0.2em] text-fuchsia-500 uppercase">
+                    Taller de código creativo
+                </p>
+                <h1 class="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight">
+                    Hagamole Pues
+                </h1>
+                <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-xl mx-auto">
+                    Aprendamos programacion basica, desde cero, sin conocimientos previos.
+                </p>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Con enfoque en la autonomía y
+                    la
+                    creatividad.
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                    <button
+                        class="inline-flex items-center justify-center rounded-full bg-fuchsia-600 px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-fuchsia-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 transition">
+                        Separa tu cupo
+                    </button>
+                    <a href="#about"
+                        class="inline-flex items-center justify-center rounded-full border border-slate-200/80 px-6 py-2.5 text-sm font-medium text-slate-700 bg-white/80 hover:bg-slate-50 transition">
+                        Más información
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        <!-- About -->
+        <section id="about" class="border-t border-slate-200/60 px-4 py-12">
+            <div
+                class="mx-auto w-full max-w-[70vw] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                <h2 class="text-xl sm:text-2xl font-medium">
+                    ¿Qué aprenderás?
+                </h2>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Fundamentos de programacion basica usando p5.js, la libreria para crear arte visual, inspirada en
+                    Processsing. Usando un enfoque práctico y simple: Con ejemplos sencillos, progresión rápida y sin
+                    tecnicismos intimidantes.
+                </p>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Crea animaciones y simulaciones simples, interactuando con los perifericos de tu computadora
+                    (camara, teclado, mouse),
+                    trasnformando datos (sonido en vivo) e interactuando con dispositivos e interfaces tales como
+                    arduino.
+                </p>
 
-    <!-- Curriculum Section -->
-    <section class="curriculum">
-        <div class="container">
-            <span class="section-label">
-                <span>[02]</span>
-                Curriculum_Map
-            </span>
-            <h2 class="section-title">The Learning Journey</h2>
-            <p class="section-description">Three sessions, three breakthroughs. Each class builds on the last, taking
-                you from blank screen to sensor-driven installations.</p>
-
-            <div class="journey-timeline">
-                <div class="journey-step">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <span class="step-title">&gt; Session_One</span>
-                        <h3>Hola Mundo (Hello World)</h3>
-                        <div class="step-outcome">
-                            <span>&rarr;</span>
-                            A custom interactive system that responds to your touch
-                        </div>
-                        <p>Move from a "blank screen" to a living, breathing particle system using p5.js fundamentals
-                            and real-time interaction. You'll understand how code thinks—and how to make it dance.</p>
-                    </div>
-                </div>
-
-                <div class="journey-step">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <span class="step-title">&gt; Session_Two</span>
-                        <h3>Hola Yo (Hello Me)</h3>
-                        <div class="step-outcome">
-                            <span>&rarr;</span>
-                            Audio-reactive visuals that transform sound and motion into art
-                        </div>
-                        <p>Use your voice and image as a brush by implementing camera/microphone feeds and mapping
-                            movement to visual distortion. Your body becomes the controller.</p>
-                    </div>
-                </div>
-
-                <div class="journey-step">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <span class="step-title">&gt; Session_Three</span>
-                        <h3>Hola Bichos (Hello Bugs)</h3>
-                        <div class="step-outcome">
-                            <span>&rarr;</span>
-                            A 'digital bug' system controlled by physical sensors
-                        </div>
-                        <p>Break the screen barrier. Learn Arduino integration and serial communication to manipulate
-                            code with physical objects like light and distance sensors.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about">
-        <div class="container">
-            <span class="section-label">
-                <span>[03]</span>
-                Instructor_Profile
-            </span>
-            <h2 class="section-title">Your Guide</h2>
-
-            <div class="about-card">
-                <div class="about-visual">
-                    <div class="about-avatar">
-                        <span>&lt;F/&gt;</span>
-                    </div>
-                    <div class="about-badge">ART × FINTECH</div>
-                </div>
-                <div class="about-content">
-                    <h3>Ferchito</h3>
-                    <p class="about-tagline">&gt; A "mighty nerd" at the intersection of Art and Fintech</p>
-                    <p>With a career built on blending the precision of financial technology with the fluidity of
-                        creative expression, Ferchito brings a unique, practical perspective to coding. He doesn't just
-                        teach you how to code; he teaches you how to think like a digital architect.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Logistics Section -->
-    <section class="logistics">
-        <div class="container">
-            <span class="section-label">
-                <span>[04]</span>
-                System_Config
-            </span>
-            <h2 class="section-title">Logistics & Investment</h2>
-
-            <div class="logistics-grid">
-                <div class="logistics-item">
-                    <div class="logistics-icon">[L]</div>
-                    <div>
-                        <h4>Venue</h4>
-                        <p>El Escampadero, Medellín</p>
-                    </div>
-                </div>
-                <div class="logistics-item">
-                    <div class="logistics-icon">[D]</div>
-                    <div>
-                        <h4>Dates</h4>
-                        <p>3 Saturdays, starting Feb 14th</p>
-                    </div>
-                </div>
-                <div class="logistics-item">
-                    <div class="logistics-icon">[T]</div>
-                    <div>
-                        <h4>Schedule</h4>
-                        <p>2 hours per session</p>
-                    </div>
-                </div>
-                <div class="logistics-item">
-                    <div class="logistics-icon">[#]</div>
-                    <div>
-                        <h4>Capacity</h4>
-                        <p>Strictly limited to 10 participants</p>
-                    </div>
-                </div>
-                <div class="logistics-item">
-                    <div class="logistics-icon">[&gt;]</div>
-                    <div>
-                        <h4>Required Gear</h4>
-                        <p>Just your laptop. We handle the rest.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pricing-cards">
-                <div class="pricing-card featured">
-                    <div class="pricing-label">&gt; Early_Bird</div>
-                    <div class="pricing-amount">$300.000</div>
-                    <div class="pricing-currency">COP</div>
-                    <p class="pricing-note">Register early and save!</p>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-label">Standard_Tuition</div>
-                    <div class="pricing-amount">$350.000</div>
-                    <div class="pricing-currency">COP</div>
-                    <p class="pricing-note">Regular pricing</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Community Section -->
-    <section class="community">
-        <div class="container">
-            <span class="section-label">
-                <span>[05]</span>
-                Package_Contents
-            </span>
-            <h2 class="section-title">Beyond the Screen: Your Toolkit & Community</h2>
-            <p class="section-description">We believe your journey shouldn't end when the class does. By joining, you
-                gain:</p>
-
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">[+]</div>
-                    <h4>The "Deep Dive" Bundle</h4>
-                    <p>Includes class slides, syllabus, source code templates, and a curated roadmap for your continued
-                        learning.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">[~]</div>
-                    <h4>Workflow Integration</h4>
-                    <p>Learn how to create and deploy quick scripts that fit into your existing creative process.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">[&lt;]</div>
-                    <h4>Digital Artist Community</h4>
-                    <p>Lifetime access to our chat support group where you can share work and get feedback.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">[!]</div>
-                    <h4>1-on-1 Support</h4>
-                    <p>Book personal "Office Hours" for your specific project hurdles and creative challenges.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final CTA Section -->
-    <section class="final-cta" id="cta">
-        <div class="container">
-            <div class="final-cta-content">
-                <h2>Ready to <span class="highlight">break the code</span>?</h2>
-                <a href="#" class="cta-button-large">
-                    EXECUTE_REGISTRATION // EL_ESCAMPADERO
-                    <span>&rarr;</span>
-                </a>
-                <p class="cta-note">Limited to <strong>10 artists</strong> to ensure high-quality, hands-on mentorship.
+                <p class="text-sm sm:text-base text-slate-600">
+                    Adquiere herramientas de auto aprenizaje, para que sigas aprendiendo despues de las clases y
+                    desarrolles tu propio lenguaje, manteniendo un enfoque de experimentación y acompañamiento,
+                    accediendo a una comunidad de artistas y creativos.
                 </p>
             </div>
-        </div>
-    </section>
+        </section>
+        <section id="about" class="border-t border-slate-200/60 px-4 py-12">
+            <div
+                class="mx-auto w-full max-w-[70vw] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                <h2 class="text-xl sm:text-2xl font-medium">
+                    ¿En qué consiste?
+                </h2>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Iniciando el 19 de Marzo de 2026, compartiremos 3 sesiones grupales cada Sábado en la mañana, con
+                    horario a convenir,
+                    teniendo como sede a "El Escampadero" espacio creativo y taller artístico ubicado en el barrio
+                    Laureles de la ciudad de Medellín, Colombia.
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&gt; Creative_Code_Workshop // Medellín, Colombia // 2026</p>
-        </div>
-    </footer>
+                </p>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Sesiones híbridas (presencial con transmisión en vivo), con toda la calidez del encuentro físico, a
+                    la par de ofrecer total flexibilidad para
+                    quienes no puedan desplazarse hasta el taller.
+                </p>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Recibe material de estudio y profundizaciontales como guias de clase y documentación. También,
+                    memorias
+                    de cada sesion tales como diapositivas y registro en video de la clase. Accede a nuestra comunidad
+                    de artistas y creativos, con mentoría, acompañamiento y
+                    acceso prefrencial a próximos cursos de profundizacion diseñad de acuerdo a tus necesidades e
+                    intereses.
+                </p>
+            </div>
+        </section>
+
+        <section id="about" class="border-t border-slate-200/60 px-4 py-12">
+            <div
+                class="mx-auto w-full max-w-[70vw] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                <h2 class="text-xl sm:text-2xl font-medium">
+                    ¿Quién mediará el taller?
+                </h2>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Andrés F, polímata con más de 10 años de experiencia en el sector cultural y más de 5 años en el
+                    mundo del desarrollo de software.
+                    Explorando áreas tan diversas como: música, video, fotografía, diseño, pegagogía y gestión cultural.
+
+                </p>
+                <p class="text-sm sm:text-base text-slate-600">
+                    Realizando intervenciones artísticas a nivel local e internacional, descatando intervenciones en
+                    Documenta 15 (Alemania) y La Fabrika de Toda la Vida (España).
+                </p>
+
+
+                <p class="text-sm sm:text-base text-slate-600">
+
+                    Dictando clases y talleres en espacios independientes y académicos, desctacando Universidad Eafit,
+                    La Colegiatura, Universidad Javeriana y Universidad de Zurich.
+                </p>
+
+
+
+                <p class="text-sm sm:text-base text-slate-600">
+                    Colaborando con equipos locales e internacionales, integrando talento de los 5 continentes
+                    (Colombia, Peru, Argentina, Mexico, España, Alemania, Marruecos, Uganda, Palestina, India,
+                    Indonesia, Australia).
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-200/60 mt-auto">
+            <div
+                class="mx-auto max-w-3xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-500 bg-white">
+                <p>&copy; <span id="year"></span> Hagamole Pues / Taller de programación creativa.</p>
+                <p class="text-slate-400">Una iniciativa de Artilugio Taller y El Escampadero</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Keep the footer year current.
+        (function setCurrentYear() {
+            var yearEl = document.getElementById('year');
+            if (yearEl) {
+                yearEl.textContent = new Date().getFullYear();
+            }
+        })();
+
+        // p5.js sketch: minimal bouncing circle background.
+        var circleX, circleY;
+        var circleVX, circleVY;
+        var circleR = 60;
+
+        function setup() {
+            var cnv = createCanvas(windowWidth, windowHeight);
+            cnv.position(0, 0);
+            cnv.style('position', 'fixed');
+            cnv.style('top', '0');
+            cnv.style('left', '0');
+            cnv.style('z-index', '-1');
+            cnv.style('pointer-events', 'none');
+
+            frameRate(60);
+            noStroke();
+
+            circleX = random(circleR, windowWidth - circleR);
+            circleY = random(circleR, windowHeight - circleR);
+            circleVX = random(-2, 2);
+            circleVY = random(-2, 2);
+        }
+
+        function draw() {
+            // Soft off-white background.
+            background(248, 250, 252);
+
+            // Small random wobble to keep motion organic.
+            circleVX += random(-0.05, 0.05);
+            circleVY += random(-0.05, 0.05);
+
+            // Limit max speed a bit.
+            var maxSpeed = 3;
+            circleVX = constrain(circleVX, -maxSpeed, maxSpeed);
+            circleVY = constrain(circleVY, -maxSpeed, maxSpeed);
+
+            // Move circle.
+            circleX += circleVX;
+            circleY += circleVY;
+
+            // Bounce off edges.
+            if (circleX - circleR < 0) {
+                circleX = circleR;
+                circleVX *= -1;
+            } else if (circleX + circleR > width) {
+                circleX = width - circleR;
+                circleVX *= -1;
+            }
+
+            if (circleY - circleR < 0) {
+                circleY = circleR;
+                circleVY *= -1;
+            } else if (circleY + circleR > height) {
+                circleY = height - circleR;
+                circleVY *= -1;
+            }
+
+            // Draw filled circle with a darker, more electric purple highlight.
+            fill(192, 38, 211, 90); // approx Tailwind fuchsia-600 with alpha
+            ellipse(circleX, circleY, circleR * 2, circleR * 2);
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
 </body>
 
 </html>
