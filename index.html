@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -7,141 +7,340 @@
     <title>Hagamole Pues</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Typography: stable line-height to reduce CLS. If adding webfonts, preload and use font-display: optional. */
+        h1,
+        h2 {
+            line-height: 1.2;
+        }
+
+        .hero-cta {
+            background: linear-gradient(90deg, #3124B2, #BF00FF, #3124B2, #BF00FF);
+            background-size: 300% 100%;
+            animation: cta-glow 4s ease infinite;
+            box-shadow: 0 0 20px rgba(191, 0, 255, 0.4);
+        }
+
+        .hero-cta:hover {
+            animation-duration: 2s;
+            box-shadow: 0 0 28px rgba(191, 0, 255, 0.6);
+        }
+
+        @keyframes cta-glow {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
 </head>
 
 <body class="text-slate-900">
-    <main class="min-h-screen flex flex-col relative z-10">
-        <!-- Hero -->
+    <main class="min-h-screen flex flex-col relative z-10 pb-20 md:pb-0">
+        <!-- Banner principal -->
         <section class="flex-1 flex items-center px-4 py-12">
             <div
-                class="mx-auto w-full max-w-[70vw] px-6 py-12 text-center bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
-                <p class="text-xs font-medium tracking-[0.2em] text-fuchsia-500 uppercase">
-                    Taller de código creativo
+                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 text-center bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                <p class="text-xs font-medium tracking-[0.2em] uppercase text-[#3124B2]">
+                    Taller creativo
                 </p>
-                <h1 class="mt-4 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-tight uppercase break-words">
-                    HAGAMOLE PUES
+                <h1
+                    class="mt-4 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-tight uppercase break-words">
+                    ARTE & Código
                 </h1>
+                <span class="font-serif italic"> Sin miedo al éxito</span>
                 <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-xl mx-auto">
-                    Aprendamos programacion basica, desde cero, sin conocimientos previos.
+                    Crear arte generativo e interactivo desde cero: Una introducción práctica a la programación creativa
                 </p>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Con enfoque en la autonomía y
-                    la
-                    creatividad.
-                </p>
+
                 <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                     <button
-                        class="inline-flex items-center justify-center rounded-full bg-fuchsia-600 px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-fuchsia-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 transition">
-                        Separa tu cupo
+                        class="hero-cta inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3124B2] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 transition">
+                        Inscríbete ahora
                     </button>
-                    <a href="#about"
-                        class="inline-flex items-center justify-center rounded-full border border-slate-200/80 px-6 py-2.5 text-sm font-medium text-slate-700 bg-white/80 hover:bg-slate-50 transition">
-                        Más información
-                    </a>
                 </div>
+                <p
+                    class="mt-4 text-sm text-slate-600 text-center max-w-md mx-auto px-4 py-1.5 rounded-full bg-pink-50/90">
+                    . Máximo 10 cupos disponibles
+                </p>
             </div>
         </section>
-        <!-- About -->
-        <section id="about" class="border-t border-slate-200/60 px-4 py-12">
+        <!-- Qué aprenderás -->
+        <section id="what-you-learn" class="border-t border-slate-200/60 px-4 py-12">
             <div
-                class="mx-auto w-full max-w-[70vw] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
                 <h2 class="text-xl sm:text-2xl font-medium">
                     ¿Qué aprenderás?
                 </h2>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Fundamentos de programacion basica usando p5.js, la libreria para crear arte visual, inspirada en
-                    Processsing. Usando un enfoque práctico y simple: Con ejemplos sencillos, progresión rápida y sin
-                    tecnicismos intimidantes.
-                </p>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Crea animaciones y simulaciones simples, interactuando con los perifericos de tu computadora
-                    (camara, teclado, mouse),
-                    trasnformando datos (sonido en vivo) e interactuando con dispositivos e interfaces tales como
-                    arduino.
-                </p>
-
-                <p class="text-sm sm:text-base text-slate-600">
-                    Adquiere herramientas de auto aprenizaje, para que sigas aprendiendo despues de las clases y
-                    desarrolles tu propio lenguaje, manteniendo un enfoque de experimentación y acompañamiento,
-                    accediendo a una comunidad de artistas y creativos.
-                </p>
+                <span
+                    class="inline-block mt-2 text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2">
+                    Este taller está diseñado para mentes creativas, no matemáticas. Si puedes escribir una línea,
+                    puedes programar en p5.js.
+                </span>
+                <ul class="space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Arte visual con p5.js</strong> — Fundamentos de
+                            programación básica usando la librería para crear arte visual. Enfoque práctico y simple:
+                            ejemplos sencillos, progresión rápida y sin tecnicismos intimidantes.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Animaciones y simulaciones</strong> — Crea animaciones y
+                            simulaciones simples, interactuando con los periféricos de tu computadora (cámara, teclado,
+                            mouse).</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Datos y sonido en vivo</strong> — Transforma datos como el
+                            sonido en vivo en entradas creativas para tus proyectos.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Arduino e interfaces</strong> — Interactúa con dispositivos
+                            e interfaces físicas como Arduino para llevar tu creatividad al mundo real.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Autoaprendizaje y comunidad</strong> — Herramientas para
+                            seguir aprendiendo después de las clases, desarrollar tu propio lenguaje y acceder a una
+                            comunidad de artistas y creativos, con enfoque en experimentación y acompañamiento.</span>
+                    </li>
+                </ul>
             </div>
         </section>
-        <section id="about" class="border-t border-slate-200/60 px-4 py-12">
+        <section id="logistics" class="border-t border-slate-200/60 px-4 py-12">
             <div
-                class="mx-auto w-full max-w-[70vw] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
                 <h2 class="text-xl sm:text-2xl font-medium">
-                    ¿En qué consiste?
+                    Es mejor en grupo
                 </h2>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Iniciando el 19 de Marzo de 2026, compartiremos 3 sesiones grupales cada Sábado en la mañana, con
-                    horario a convenir,
-                    teniendo como sede a "El Escampadero" espacio creativo y taller artístico ubicado en el barrio
-                    Laureles de la ciudad de Medellín, Colombia.
-
-                </p>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Sesiones híbridas (presencial con transmisión en vivo), con toda la calidez del encuentro físico, a
-                    la par de ofrecer total flexibilidad para
-                    quienes no puedan desplazarse hasta el taller.
-                </p>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Recibe material de estudio y profundizaciontales como guias de clase y documentación. También,
-                    memorias
-                    de cada sesion tales como diapositivas y registro en video de la clase. Accede a nuestra comunidad
-                    de artistas y creativos, con mentoría, acompañamiento y
-                    acceso prefrencial a próximos cursos de profundizacion diseñad de acuerdo a tus necesidades e
-                    intereses.
-                </p>
+                <span
+                    class="inline-block mt-2 text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2">
+                    Fechas, sede, formato y todo lo que necesitas para sumarte.
+                </span>
+                <ul class="space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Fechas y horario</strong> — Iniciando el 19 de Marzo de
+                            2026, 3 sesiones grupales cada Sábado en la mañana, con horario a convenir.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Sede</strong> — "El Escampadero", espacio creativo y taller
+                            artístico en el barrio Laureles, Medellín, Colombia.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Formato híbrido</strong> — Presencial con transmisión en
+                            vivo: calidez del encuentro físico y flexibilidad para quienes no puedan desplazarse.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Material y comunidad</strong> — Guías de clase,
+                            documentación, memorias de cada sesión (diapositivas y video). Acceso a la comunidad de
+                            artistas y creativos, con mentoría, acompañamiento y acceso preferencial a próximos cursos
+                            de profundización diseñados según tus necesidades e intereses.</span>
+                    </li>
+                </ul>
             </div>
         </section>
 
-        <section id="about" class="border-t border-slate-200/60 px-4 py-12">
+        <section id="instructor" class="border-t border-slate-200/60 px-4 py-12">
             <div
-                class="mx-auto w-full max-w-[70vw] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
                 <h2 class="text-xl sm:text-2xl font-medium">
                     ¿Quién mediará el taller?
                 </h2>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Andrés F, polímata con más de 10 años de experiencia en el sector cultural y más de 5 años en el
-                    mundo del desarrollo de software.
-                    Explorando áreas tan diversas como: música, video, fotografía, diseño, pegagogía y gestión cultural.
-
-                </p>
-                <p class="text-sm sm:text-base text-slate-600">
-                    Realizando intervenciones artísticas a nivel local e internacional, descatando intervenciones en
-                    Documenta 15 (Alemania) y La Fabrika de Toda la Vida (España).
-                </p>
-
-
-                <p class="text-sm sm:text-base text-slate-600">
-
-                    Dictando clases y talleres en espacios independientes y académicos, desctacando Universidad Eafit,
-                    La Colegiatura, Universidad Javeriana y Universidad de Zurich.
-                </p>
-
-
-
-                <p class="text-sm sm:text-base text-slate-600">
-                    Colaborando con equipos locales e internacionales, integrando talento de los 5 continentes
-                    (Colombia, Peru, Argentina, Mexico, España, Alemania, Marruecos, Uganda, Palestina, India,
-                    Indonesia, Australia).
-                </p>
+                <span
+                    class="inline-block mt-2 text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2">
+                    Andrés F — artista, docente y desarrollador con experiencia local e internacional.
+                </span>
+                <ul class="space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Experiencia</strong> — Andrés F, polímata con más de 10
+                            años en el sector cultural y más de 5 en desarrollo de software. Áreas: música, video,
+                            fotografía, diseño, pedagogía y gestión cultural.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0h.5a2.5 2.5 0 002.5-2.5V3.935M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Intervenciones artísticas</strong> — A nivel local e
+                            internacional, destacando Documenta 15 (Alemania) y La Fabrika de Toda la Vida
+                            (España).</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 14l9-5-9-5-9 5 9 5z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Docencia</strong> — Clases y talleres en espacios
+                            independientes y académicos: Universidad Eafit, La Colegiatura, Universidad Javeriana y
+                            Universidad de Zurich.</span>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                            aria-hidden="true">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </span>
+                        <span><strong class="text-slate-800">Colaboración global</strong> — Equipos locales e
+                            internacionales, con talento de los 5 continentes (Colombia, Perú, Argentina, México,
+                            España, Alemania, Marruecos, Uganda, Palestina, India, Indonesia, Australia).</span>
+                    </li>
+                </ul>
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="border-t border-slate-200/60 mt-auto">
+        <!-- CTA descuento -->
+        <section class="border-t border-slate-200/60 px-4 py-10">
             <div
-                class="mx-auto max-w-3xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-500 bg-white">
+                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-8 bg-[#3124B2] text-white rounded-2xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center sm:text-left">
+                    <p class="text-xs font-semibold tracking-[0.18em] uppercase text-violet-100/90">
+                        Oferta de lanzamiento
+                    </p>
+                    <h2 class="text-2xl sm:text-3xl font-semibold">
+                        Inscríbete antes del 12 de marzo y obtén un 15% de descuento
+                    </h2>
+                    <p class="text-sm text-violet-100/90 max-w-xl">
+                        Asegura tu cupo ahora y aprovecha un precio especial por inscripción anticipada.
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center gap-3">
+                    <button
+                        class="inline-flex items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-medium text-[#3124B2] shadow-sm hover:bg-violet-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#3124B2] transition">
+                        Inscríbete con descuento
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pie de página -->
+        <footer class="w-full border-t border-slate-600/50 mt-auto bg-slate-700">
+            <div
+                class="w-full sm:max-w-[min(70vw,56.25rem)] sm:mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-300">
                 <p>&copy; <span id="year"></span> Hagamole Pues / Taller de programación creativa.</p>
                 <p class="text-slate-400">Una iniciativa de Artilugio Taller y El Escampadero</p>
             </div>
         </footer>
     </main>
 
+    <!-- CTA fijo «Asegura tu cupo» — visible al hacer scroll -->
+    <div id="sticky-cta"
+        class="fixed inset-x-0 bottom-0 md:top-0 md:bottom-auto z-20 bg-white/90 backdrop-blur border-t md:border-b border-slate-200/80 transition-transform duration-300 ease-out translate-y-full md:-translate-y-full"
+        aria-hidden="true">
+        <div
+            class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-4 py-3 flex items-center justify-between gap-3 text-xs sm:text-sm">
+            <p class="hidden sm:block text-slate-700">
+                Asegura tu cupo en el taller de código creativo.
+            </p>
+            <button
+                class="ml-auto inline-flex items-center justify-center rounded-full bg-[#3124B2] px-5 py-2 text-xs sm:text-sm font-medium text-white shadow-sm hover:bg-[#271c8a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3124B2] focus-visible:ring-offset-2 focus-visible:ring-offset-white transition">
+                Asegura tu cupo
+            </button>
+        </div>
+    </div>
+
     <script>
-        // Keep the footer year current.
+        // Mantener el año del footer actualizado.
         (function setCurrentYear() {
             var yearEl = document.getElementById('year');
             if (yearEl) {
@@ -149,7 +348,26 @@
             }
         })();
 
-        // p5.js sketch: floating purple particle field with fading trails.
+        // Barra fija: visible al hacer scroll hacia abajo.
+        (function stickyCtaOnScroll() {
+            var threshold = 120;
+            var bar = document.getElementById('sticky-cta');
+            if (!bar) return;
+            function update() {
+                var show = window.scrollY > threshold;
+                bar.classList.toggle('translate-y-0', show);
+                bar.classList.toggle('md:translate-y-0', show);
+                bar.classList.toggle('translate-y-full', !show);
+                bar.classList.toggle('md:-translate-y-full', !show);
+                bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+            }
+            window.addEventListener('scroll', function () {
+                requestAnimationFrame(update);
+            }, { passive: true });
+            update();
+        })();
+
+        // Sketch p5.js: campo de partículas violetas con estelas que se desvanecen.
         var particles = [];
         var numParticles = 220;
 
@@ -165,7 +383,7 @@
             frameRate(60);
             noStroke();
 
-            // Initialize a small batch of tiny particles.
+            // Inicializar un conjunto de partículas pequeñas.
             for (var i = 0; i < numParticles; i++) {
                 particles.push({
                     x: random(width),
@@ -176,42 +394,42 @@
                 });
             }
 
-            // Soft off‑white base so first frame is not black.
+            // Base blanquecina para que el primer frame no sea negro.
             background(248, 250, 252);
         }
 
         function draw() {
-            // Draw a very light veil over the canvas so previous frames gently fade.
+            // Dibujar un velo muy suave sobre el canvas para que los frames anteriores se desvanezcan.
             noStroke();
             fill(248, 250, 252, 20); // low alpha for long, soft trails
             rect(0, 0, width, height);
 
-            // Slightly luminous, highly saturated purple points.
-            fill(217, 70, 239, 230); // vibrant purple with strong saturation
+            // Puntos ligeramente luminosos en el violeta #3124B2.
+            fill(49, 36, 178, 230);
 
             for (var i = 0; i < particles.length; i++) {
                 var p = particles[i];
 
-                // Add a tiny random wobble so motion feels organic.
+                // Pequeña fluctuación aleatoria para que el movimiento se sienta orgánico.
                 p.vx += random(-0.03, 0.03);
                 p.vy += random(-0.03, 0.03);
 
-                // Gently limit speed so particles drift rather than streak.
+                // Limitar suavemente la velocidad para que las partículas floten en lugar de dispararse.
                 var maxSpeed = 0.9;
                 p.vx = constrain(p.vx, -maxSpeed, maxSpeed);
                 p.vy = constrain(p.vy, -maxSpeed, maxSpeed);
 
-                // Update position.
+                // Actualizar posición.
                 p.x += p.vx;
                 p.y += p.vy;
 
-                // Wrap around edges to keep the field dense everywhere.
+                // Rebote en los bordes para mantener el campo denso en todas partes.
                 if (p.x < 0) p.x = width;
                 if (p.x > width) p.x = 0;
                 if (p.y < 0) p.y = height;
                 if (p.y > height) p.y = 0;
 
-                // Draw a tiny "pixel‑like" particle.
+                // Dibujar una partícula tipo píxel.
                 ellipse(p.x, p.y, p.size, p.size);
             }
         }
