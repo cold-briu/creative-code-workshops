@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arte & Codigo desde cero</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Typography: stable line-height to reduce CLS. If adding webfonts, preload and use font-display: optional. */
@@ -37,15 +38,28 @@
                 background-position: 100% 50%;
             }
         }
+
+        .offer-cta {
+            background: linear-gradient(90deg, #BF00FF, #FF00D4, #BF00FF, #FF00D4);
+            background-size: 300% 100%;
+            animation: cta-glow 4s ease infinite;
+            box-shadow: 0 0 25px rgba(191, 0, 255, 0.5);
+        }
+
+        .offer-cta:hover {
+            animation-duration: 2s;
+            box-shadow: 0 0 35px rgba(191, 0, 255, 0.7);
+            filter: brightness(1.1);
+        }
     </style>
 </head>
 
 <body class="text-slate-900">
-    <main class="min-h-screen flex flex-col relative z-10 pb-20 md:pb-0">
+    <main class="min-h-screen flex flex-col relative z-10">
         <!-- Banner principal -->
-        <section class="flex-1 flex items-center px-4 py-12">
+        <section id="hero" class="flex-1 flex items-center px-4 py-4 md:py-8">
             <div
-                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 text-center bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                class="mx-auto w-full max-w-[min(92vw,56.25rem)] px-6 py-8 md:py-12 text-center bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
                 <p class="text-xs font-medium tracking-[0.2em] uppercase text-[#3124B2]">
                     Taller creativo
                 </p>
@@ -59,7 +73,7 @@
 
                 <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                     <a href="https://forms.gle/Yi8ykm4rRXDvgugj8" target="_blank" rel="noopener noreferrer"
-                        class="hero-cta inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3124B2] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 transition">
+                        class="hero-cta inline-flex items-center justify-center rounded-2xl px-8 py-4 text-base font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3124B2] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 transition">
                         Inscríbete ahora
                     </a>
                 </div>
@@ -70,233 +84,316 @@
             </div>
         </section>
         <!-- Qué aprenderás -->
-        <section id="what-you-learn" class="border-t border-slate-200/60 px-4 py-12">
+        <section id="curriculum" class="border-t border-slate-200/60 px-4 py-4 md:py-8">
             <div
-                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
-                <h2 class="text-xl sm:text-2xl font-medium">
-                    ¿Qué aprenderás?
-                </h2>
-                <span
-                    class="inline-block mt-2 text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2">
-                    Este taller está diseñado para mentes creativas, no matemáticas. Si puedes escribir una línea,
-                    puedes programar en p5.js.
-                </span>
-                <ul class="space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Arte visual con p5.js</strong> — Fundamentos de
-                            programación básica usando la librería para crear arte visual. Enfoque práctico y simple:
-                            ejemplos sencillos, progresión rápida y sin tecnicismos intimidantes.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Animaciones y simulaciones</strong> — Crea animaciones y
-                            simulaciones simples, interactuando con los periféricos de tu computadora (cámara, teclado,
-                            mouse).</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Datos y sonido en vivo</strong> — Transforma datos como el
-                            sonido en vivo en entradas creativas para tus proyectos.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Arduino e interfaces</strong> — Interactúa con dispositivos
-                            e interfaces físicas como Arduino para llevar tu creatividad al mundo real.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Autoaprendizaje y comunidad</strong> — Herramientas para
-                            seguir aprendiendo después de las clases, desarrollar tu propio lenguaje y acceder a una
-                            comunidad de artistas y creativos, con enfoque en experimentación y acompañamiento.</span>
-                    </li>
-                </ul>
+                class="mx-auto w-full max-w-[min(92vw,56.25rem)] px-6 py-8 md:py-12 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
+                <div class="text-center mb-16 space-y-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                        ¿Qué aprenderás?
+                    </h2>
+                    <p
+                        class="max-w-2xl mx-auto text-sm sm:text-base font-medium text-violet-800 bg-violet-50/50 border border-violet-100 rounded-2xl px-6 py-3 backdrop-blur-sm">
+                        Este taller está diseñado para mentes creativas, no matemáticas.
+                        <span class="block sm:inline text-violet-600 font-normal">Si puedes escribir una línea, puedes
+                            programar en p5.js.</span>
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <!-- Card 2 -->
+                    <div
+                        class="group overflow-hidden bg-white/60 backdrop-blur-md rounded-2xl border border-white/40 shadow-xl shadow-slate-200/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-violet-200/40 hover:border-violet-200/50">
+                        <div
+                            class="aspect-video w-full bg-slate-50/50 border-b border-slate-100 relative overflow-hidden">
+                            <div class="preview-sketch w-full h-full" id="sketch-1"></div>
+                            <div class="absolute top-3 right-4 pointer-events-none transition-opacity duration-500">
+                                <span
+                                    class="text-[10px] uppercase tracking-wider font-bold text-slate-500/80 bg-white/60 px-2.5 py-1.5 rounded-lg backdrop-blur-md border border-white/60 shadow-sm">
+                                    TOCA EL CÍRCULO PARA SALTAR
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-100 to-fuchsia-100 text-violet-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-800">Animaciones y simulaciones</h3>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Crea experiencias interactivas usando los periféricos de tu computadora (cámara,
+                                teclado y mouse).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="group overflow-hidden bg-white/60 backdrop-blur-md rounded-2xl border border-white/40 shadow-xl shadow-slate-200/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-violet-200/40 hover:border-violet-200/50">
+                        <div
+                            class="aspect-video w-full bg-slate-50/50 border-b border-slate-100 relative overflow-hidden">
+                            <div class="preview-sketch w-full h-full" id="sketch-2"></div>
+                            <div class="absolute top-3 right-4 pointer-events-none transition-opacity duration-500">
+                                <span
+                                    class="text-[10px] uppercase tracking-wider font-bold text-slate-500/80 bg-white/60 px-2.5 py-1.5 rounded-lg backdrop-blur-md border border-white/60 shadow-sm">
+                                    TOCA EL BOTÓN PARA REPRODUCIR
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-100 to-fuchsia-100 text-violet-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-800">Datos y sonido en vivo</h3>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Transforma sonido y datos externos en figuras dinámicas, colores y movimiento.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div
+                        class="group overflow-hidden bg-white/60 backdrop-blur-md rounded-2xl border border-white/40 shadow-xl shadow-slate-200/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-violet-200/40 hover:border-violet-200/50">
+                        <div
+                            class="aspect-video w-full bg-slate-50/50 border-b border-slate-100 relative overflow-hidden">
+                            <div class="preview-sketch w-full h-full" id="sketch-3"></div>
+                            <div class="absolute top-3 right-4 pointer-events-none transition-opacity duration-500">
+                                <span
+                                    class="text-[10px] uppercase tracking-wider font-bold text-slate-500/80 bg-white/60 px-2.5 py-1.5 rounded-lg backdrop-blur-md border border-white/60 shadow-sm">
+                                    TOCA EL LED PARA ILUMINAR
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-100 to-fuchsia-100 text-violet-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-slate-800">Arduino e interfaces</h3>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Conecta dispositivos físicos como Arduino para fusionar el mundo virtual con el real.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-        <section id="logistics" class="border-t border-slate-200/60 px-4 py-12">
+        <section id="workshop-details" class="border-t border-slate-200/60 px-4 py-4 md:py-8">
             <div
-                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
-                <h2 class="text-xl sm:text-2xl font-medium">
-                    Es mejor en grupo
-                </h2>
-                <span
-                    class="inline-block mt-2 text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2">
-                    Fechas, sede, formato y todo lo que necesitas para sumarte.
-                </span>
-                <ul class="space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
-                    <li class="flex gap-3 items-start">
+                class="mx-auto w-full max-w-[min(92vw,56.25rem)] px-6 py-8 md:py-10 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm transition-all duration-300">
+                <!-- Toggle Header: h2 and span are visible and act as the button -->
+                <button onclick="toggleSection('workshop-details')"
+                    class="w-full text-left flex items-start justify-between group/toggle focus:outline-none">
+                    <div class="space-y-3">
+                        <h2
+                            class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 group-hover/toggle:text-[#3124B2] transition-colors">
+                            Es mejor en grupo
+                        </h2>
                         <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+                            class="inline-block text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2 group-hover/toggle:bg-violet-100 transition-colors">
+                            Fechas, sede, formato y todo lo que necesitas para sumarte.
                         </span>
-                        <span><strong class="text-slate-800">Fechas y horario</strong> — Iniciando el 21 de Marzo de
-                            2026, 3 sesiones grupales cada Sábado en la mañana, con horario a convenir.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Sede</strong> — "El Escampadero", espacio creativo y taller
-                            artístico en el barrio Laureles, Medellín, Colombia.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Formato híbrido</strong> — Presencial con transmisión en
-                            vivo: calidez del encuentro físico y flexibilidad para quienes no puedan desplazarse.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Material y comunidad</strong> — Guías de clase,
-                            documentación, memorias de cada sesión (diapositivas y video). Acceso a la comunidad de
-                            artistas y creativos, con mentoría, acompañamiento y acceso preferencial a próximos cursos
-                            de profundización diseñados según tus necesidades e intereses.</span>
-                    </li>
-                </ul>
+                    </div>
+                    <!-- Icon Section -->
+                    <div
+                        class="mt-2 text-violet-400 group-hover/toggle:text-[#3124B2] transition-colors flex items-center justify-center w-10 h-10 rounded-full bg-violet-50 group-hover/toggle:bg-violet-100">
+                        <svg id="workshop-details-chevron" class="w-6 h-6 transition-transform duration-500 transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </button>
+
+                <!-- Collapsible Content (UL section collapsed by default) -->
+                <div id="workshop-details-content"
+                    class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out overflow-hidden">
+                    <div class="min-h-0">
+                        <ul class="pt-10 space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Fechas y horario</strong> — Inicia el sábado 11
+                                    de abril de 2026. El programa consta de tres sesiones grupales programadas cada
+                                    sábado por la mañana, con horario exacto a convenir entre los participantes.</span>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Sede</strong> — Las sesiones se realizarán en "El
+                                    Escampadero", un taller artístico y espacio creativo ubicado en el barrio Laureles
+                                    de Medellín, Colombia.</span>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Formato híbrido</strong> — Modalidad presencial con
+                                    transmisión en vivo simultánea. Diseñado para combinar la calidez del encuentro
+                                    físico con la flexibilidad para quienes no puedan desplazarse.</span>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Material y comunidad</strong> — ntrega de guías,
+                                    diapositivas y grabaciones de cada sesión. Incluye acceso a nuestra comunidad de
+                                    creativos con mentoría constante y beneficios preferenciales en futuros cursos de
+                                    profundización.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="instructor" class="border-t border-slate-200/60 px-4 py-12">
+        <section id="instructor-info" class="border-t border-slate-200/60 px-4 py-4 md:py-8">
             <div
-                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-12 space-y-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm">
-                <h2 class="text-xl sm:text-2xl font-medium">
-                    ¿Quién mediará el taller?
-                </h2>
-                <span
-                    class="inline-block mt-2 text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2">
-                    Andrés F — artista, docente y desarrollador con experiencia local e internacional.
-                </span>
-                <ul class="space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
-                    <li class="flex gap-3 items-start">
+                class="mx-auto w-full max-w-[min(92vw,56.25rem)] px-6 py-8 md:py-10 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-sm transition-all duration-300">
+                <!-- Toggle Header: h2 and span are visible and act as the button -->
+                <button onclick="toggleSection('instructor-info')"
+                    class="w-full text-left flex items-start justify-between group/toggle focus:outline-none">
+                    <div class="space-y-3">
+                        <h2
+                            class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 group-hover/toggle:text-[#3124B2] transition-colors">
+                            ¿Quién mediará el taller?
+                        </h2>
                         <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
+                            class="inline-block text-sm sm:text-base font-medium text-violet-900 bg-violet-50 border border-violet-100 rounded-xl px-4 py-2 group-hover/toggle:bg-violet-100 transition-colors">
+                            Andrés F — Mediador cultural, instructor y programador con experiencia local e
+                            internacional.
                         </span>
-                        <span><strong class="text-slate-800">Experiencia</strong> — Andrés F, polímata con más de 10
-                            años en el sector cultural y más de 5 en desarrollo de software. Áreas: música, video,
-                            fotografía, diseño, pedagogía y gestión cultural.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0h.5a2.5 2.5 0 002.5-2.5V3.935M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Intervenciones artísticas</strong> — A nivel local e
-                            internacional, destacando Documenta 15 (Alemania) y La Fabrika de Toda la Vida
-                            (España).</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 14l9-5-9-5-9 5 9 5z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Docencia</strong> — Clases y talleres en espacios
-                            independientes y académicos: Universidad Eafit, La Colegiatura, Universidad Javeriana y
-                            Universidad de Zurich.</span>
-                    </li>
-                    <li class="flex gap-3 items-start">
-                        <span
-                            class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
-                            aria-hidden="true">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </span>
-                        <span><strong class="text-slate-800">Colaboración global</strong> — Equipos locales e
-                            internacionales, con talento de los 5 continentes (Colombia, Perú, Argentina, México,
-                            España, Alemania, Marruecos, Uganda, Palestina, India, Indonesia, Australia).</span>
-                    </li>
-                </ul>
+                    </div>
+                    <!-- Icon Section -->
+                    <div
+                        class="mt-2 text-violet-400 group-hover/toggle:text-[#3124B2] transition-colors flex items-center justify-center w-10 h-10 rounded-full bg-violet-50 group-hover/toggle:bg-violet-100">
+                        <svg id="instructor-info-chevron" class="w-6 h-6 transition-transform duration-500 transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </button>
+
+                <!-- Collapsible Content (UL section collapsed by default) -->
+                <div id="instructor-info-content"
+                    class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out overflow-hidden">
+                    <div class="min-h-0">
+                        <ul class="pt-10 space-y-4 text-sm sm:text-base text-slate-600 list-none pl-0">
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Experiencia</strong> — Andrés F, creativo con más
+                                    de 10 años en el sector cultural y más de 5 años en desarrollo de software.
+                                    Experiencia en áreas como:
+                                    música, video, fotografía, diseño, pedagogía y gestión cultural.</span>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0h.5a2.5 2.5 0 002.5-2.5V3.935M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Intervenciones artísticas</strong> —
+                                    Participaciones destacadas a nivel nacional en ciudades como Medellín, Bogotá, Santa
+                                    Marta y Pasto; e internacional, con hitos como Documenta 15 (Alemania) y La Fábrika
+                                    de Toda la Vida (España).</span>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 14l9-5-9-5-9 5 9 5z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Educación</strong> — Facilitando clases y
+                                    talleres en entornos académicos e independientes. Destacan colaboraciones con la
+                                    Universidad Eafit, La Colegiatura y la Universidad Javeriana a nivel nacional, así
+                                    como con la Universidad de Zúrich en el ámbito internacional..</span>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span
+                                    class="flex-shrink-0 w-8 h-8 rounded-lg bg-violet-100 text-violet-900 flex items-center justify-center"
+                                    aria-hidden="true">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                </span>
+                                <span><strong class="text-slate-800">Colaboración global</strong> — Participación activa
+                                    en redes de trabajo con equipos locales e internacionales, integrando talento de los
+                                    cinco continentes: Colombia, Perú, Argentina, México, España, Alemania, Marruecos,
+                                    Uganda, Palestina, India, Indonesia y Australia.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- CTA descuento -->
-        <section class="border-t border-slate-200/60 px-4 py-10">
+        <section id="launch-offer" class="border-t border-slate-200/60 px-4 py-4 md:py-8">
             <div
-                class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-6 py-8 bg-[#3124B2] text-white rounded-2xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+                class="mx-auto w-full max-w-[min(92vw,56.25rem)] px-6 py-6 md:py-8 bg-[#3124B2] text-white rounded-2xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div class="space-y-2 text-center sm:text-left">
                     <p class="text-xs font-semibold tracking-[0.18em] uppercase text-violet-100/90">
                         Oferta de lanzamiento
                     </p>
-                    <h2 class="text-2xl sm:text-3xl font-semibold">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
                         Inscríbete antes del 14 de marzo y obtén un 15% de descuento
                     </h2>
                     <p class="text-sm text-violet-100/90 max-w-xl">
@@ -305,17 +402,17 @@
                 </div>
                 <div class="flex flex-col sm:flex-row items-center gap-3">
                     <button
-                        class="inline-flex items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-medium text-[#3124B2] shadow-sm hover:bg-violet-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#3124B2] transition">
-                        Inscríbete con descuento
+                        class="offer-cta inline-flex items-center justify-center rounded-2xl px-8 py-3.5 text-base font-medium text-white shadow-sm transition-all duration-300">
+                        Inscríbete ahora
                     </button>
                 </div>
             </div>
         </section>
 
         <!-- Pie de página -->
-        <footer class="w-full border-t border-slate-600/50 mt-auto bg-slate-700">
+        <footer class="w-full border-t border-slate-600/50 mt-auto bg-slate-700 pb-20 md:pb-0">
             <div
-                class="w-full sm:max-w-[min(70vw,56.25rem)] sm:mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-300">
+                class="w-full sm:max-w-[min(92vw,56.25rem)] sm:mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-300">
                 <p>&copy; <span id="year"></span> Arte & Código / Taller de programación creativa.</p>
                 <p class="text-slate-400">Una iniciativa de Artilugio Taller y El Escampadero</p>
             </div>
@@ -327,13 +424,13 @@
         class="fixed inset-x-0 bottom-0 md:top-0 md:bottom-auto z-20 bg-white/90 backdrop-blur border-t md:border-b border-slate-200/80 transition-transform duration-300 ease-out translate-y-full md:-translate-y-full"
         aria-hidden="true">
         <div
-            class="mx-auto w-full max-w-[min(70vw,56.25rem)] px-4 py-3 flex items-center justify-between gap-3 text-xs sm:text-sm">
+            class="mx-auto w-full max-w-[min(92vw,56.25rem)] px-4 py-3 flex items-center justify-between gap-3 text-xs sm:text-sm">
             <p class="hidden sm:block text-slate-700">
                 Asegura tu cupo en el taller de código creativo.
             </p>
             <a href="https://forms.gle/Yi8ykm4rRXDvgugj8" target="_blank" rel="noopener noreferrer"
-                class="ml-auto inline-flex items-center justify-center rounded-full bg-[#3124B2] px-5 py-2 text-xs sm:text-sm font-medium text-white shadow-sm hover:bg-[#271c8a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3124B2] focus-visible:ring-offset-2 focus-visible:ring-offset-white transition">
-                Asegura tu cupo
+                class="ml-auto hero-cta inline-flex items-center justify-center rounded-2xl px-5 py-2 text-xs sm:text-sm font-medium text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3124B2] focus-visible:ring-offset-2 focus-visible:ring-offset-white transition">
+                Inscríbete ahora
             </a>
         </div>
     </div>
@@ -365,6 +462,34 @@
             }, { passive: true });
             update();
         })();
+
+        // Función para colapsar/expandir secciones (Acordeón)
+        function toggleSection(id) {
+            const content = document.getElementById(`${id}-content`);
+            const chevron = document.getElementById(`${id}-chevron`);
+            const isExpanded = content.classList.contains('grid-rows-[1fr]');
+
+            // Toggle content visibility using CSS grid-rows trick
+            content.classList.toggle('grid-rows-[0fr]', isExpanded);
+            content.classList.toggle('grid-rows-[1fr]', !isExpanded);
+
+            // Toggle chevron rotation
+            chevron.classList.toggle('rotate-180', !isExpanded);
+        }
+
+        // Función para colapsar/expandir secciones (Acordeón)
+        function toggleSection(id) {
+            const content = document.getElementById(`${id}-content`);
+            const chevron = document.getElementById(`${id}-chevron`);
+            const isExpanded = content.classList.contains('grid-rows-[1fr]');
+
+            // Toggle content visibility using CSS grid-rows trick
+            content.classList.toggle('grid-rows-[0fr]', isExpanded);
+            content.classList.toggle('grid-rows-[1fr]', !isExpanded);
+
+            // Toggle chevron rotation
+            chevron.classList.toggle('rotate-180', !isExpanded);
+        }
 
         // Sketch p5.js: campo de partículas violetas con estelas que se desvanecen.
         var particles = [];
@@ -437,6 +562,7 @@
             resizeCanvas(windowWidth, windowHeight);
         }
     </script>
+    <script src="cards-sketches.js"></script>
 </body>
 
 </html>
