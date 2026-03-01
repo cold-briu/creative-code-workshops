@@ -70,6 +70,8 @@
     const audioSketch = (p) => {
         let sound, amplitude, fft, playing = false, loading = false;
         let buttonSize = 50;
+        // Track whether the AudioContext has been unlocked by a user gesture
+        let audioUnlocked = false;
 
         p.setup = () => {
             const container = p.canvas.parentElement;
@@ -95,7 +97,6 @@
                 p.beginShape();
                 for (let i = 0; i < waveform.length; i += 8) {
                     let angle = p.map(i, 0, waveform.length, 0, p.TWO_PI);
-                    // Radius modulated by volume + fine waveform detail
                     let r = (50 + level * 40) + waveform[i] * 35;
                     let x = cx + r * p.cos(angle);
                     let y = cy + r * p.sin(angle);
@@ -108,7 +109,7 @@
                 p.circle(cx, cy, 110 + level * 80);
             }
 
-            // Button hover effect
+            // Button hover effect (mouse only; touch doesn't update mouseX/mouseY mid-draw)
             const d = p.dist(p.mouseX, p.mouseY, cx, cy);
             const hover = d < buttonSize / 2;
 
@@ -136,23 +137,45 @@
                 // Play Icon
                 p.triangle(cx - 5, cy - 10, cx - 5, cy + 10, cx + 10, cy);
             }
+
+            // "Tap to allow audio" hint — shown on touch devices before first interaction
+            if (!audioUnlocked && !loading && !playing) {
+                p.noStroke();
+                p.fill(49, 36, 178, 180);
+                p.rect(0, p.height - 26, p.width, 26, 0, 0, 4, 4);
+                p.fill(255);
+                p.textAlign(p.CENTER, p.CENTER);
+                p.textSize(10);
+                p.text('TOCA PARA ACTIVAR EL AUDIO', cx, p.height - 13);
+            }
+        };
+
+        /**
+         * Unlock the Web Audio API AudioContext — browsers require this to happen
+         * inside a direct user-gesture handler (touchstart / mousedown / click).
+         * Returns a Promise that resolves once the context is running.
+         */
+        const unlockAudioContext = () => {
+            // p5.sound exposes getAudioContext() globally
+            const ctx = typeof getAudioContext === 'function' ? getAudioContext() : null;
+            const resume = ctx && ctx.state !== 'running' ? ctx.resume() : Promise.resolve();
+            // Also call p5's own userStartAudio for cross-browser safety
+            const p5start = typeof p.userStartAudio === 'function' ? p.userStartAudio() : Promise.resolve();
+            return Promise.all([resume, p5start]).then(() => { audioUnlocked = true; });
         };
 
         const loadAndPlaySound = () => {
             if (loading) return;
             loading = true;
 
-            // p5.sound should be loaded via index.html defer script
             if (typeof p.loadSound === 'function') {
                 sound = p.loadSound('lib/audio.ogg',
                     () => {
                         amplitude = new p5.Amplitude();
                         fft = new p5.FFT(0.8);
                         loading = false;
-                        sound.onended(() => {
-                            playing = false;
-                        });
-                        togglePlay(); // Play immediately after loading
+                        sound.onended(() => { playing = false; });
+                        togglePlay();
                     },
                     (err) => {
                         console.error("Failed to load audio:", err);
@@ -166,15 +189,24 @@
             }
         };
 
-        const handleInteraction = () => {
-            // Required for mobile audio to work - must be called inside a user gesture
-            if (typeof p.userStartAudio === 'function') {
-                p.userStartAudio();
+        // Resolve tap/click coordinates regardless of input device.
+        // On touch, p.mouseX/mouseY may not be updated yet, so we read p.touches[].
+        const getTapPoint = () => {
+            if (p.touches && p.touches.length > 0) {
+                return { x: p.touches[0].x, y: p.touches[0].y };
             }
+            return { x: p.mouseX, y: p.mouseY };
+        };
+
+        const handleInteraction = () => {
+            // This function runs synchronously inside a user-gesture event, so
+            // unlocking the AudioContext here satisfies the browser's autoplay policy.
+            unlockAudioContext();
 
             const cx = p.width / 2;
             const cy = p.height / 2;
-            const d = p.dist(p.mouseX, p.mouseY, cx, cy);
+            const { x, y } = getTapPoint();
+            const d = p.dist(x, y, cx, cy);
 
             if (d < buttonSize / 2) {
                 if (loading) return false;
@@ -184,7 +216,7 @@
                 } else {
                     togglePlay();
                 }
-                return false;
+                return false; // Prevent page scroll on touch
             }
         };
 
@@ -198,7 +230,7 @@
                 sound.pause();
                 playing = false;
             } else {
-                sound.play(); // Play once, no loop
+                sound.play();
                 playing = true;
             }
         }
