@@ -2,25 +2,48 @@
 (function initPreviewSketches() {
     const containers = document.querySelectorAll('.preview-sketch');
 
+    // Shared helper for touch/mouse coordinates
+    const getTapPoint = (p) => {
+        if (p.touches && p.touches.length > 0) {
+            return { x: p.touches[0].x, y: p.touches[0].y };
+        }
+        return { x: p.mouseX, y: p.mouseY };
+    };
+
+    // Shared canvas setup — creates a canvas sized to the container
+    const setupCanvas = (p, frameRate = 60) => {
+        const container = p.canvas.parentElement;
+        p.createCanvas(container.offsetWidth, container.offsetHeight);
+        p.pixelDensity(1);
+        p.frameRate(frameRate);
+    };
+
+    // Shared window-resize handler — resizes canvas to fit its container
+    const makeResizeHandler = (p, onResize) => () => {
+        const container = p.canvas.parentElement;
+        p.resizeCanvas(container.offsetWidth, container.offsetHeight);
+        if (onResize) onResize();
+    };
+
     // Bouncy Circle Sketch (Card 1)
     const bouncySketch = (p) => {
-        let y, vy, gravity, bounce, radius, circleColor;
+        let gravity, bounce, radius, circleColor, y, vy;
+        p.started = false;
 
         p.setup = () => {
-            const container = p.canvas.parentElement;
-            p.createCanvas(container.offsetWidth, container.offsetHeight);
-            p.pixelDensity(1);
-            p.frameRate(30);
-            resetBall();
+            setupCanvas(p, 60);
             gravity = 0.6;
             bounce = -0.75;
             radius = 20;
             circleColor = p.color(49, 36, 178);
+            // Initial position: Bottom of the sketch
+            y = p.height - 10 - radius;
+            vy = 0;
+            p.noLoop(); // Stay static until first touch
         };
 
-        function resetBall() {
-            y = 30;
-            vy = 0;
+        function kickBall() {
+            vy = -11; // Weaker upward impulse (set, not added)
             circleColor = p.color(p.random(100, 200), p.random(50, 150), p.random(200, 255));
         }
 
@@ -31,17 +54,25 @@
             p.stroke(220);
             p.line(0, p.height - 10, p.width, p.height - 10);
 
-            // Update physics
-            vy += gravity;
-            y += vy;
+            // Update physics only if simulation has started
+            if (p.started) {
+                vy += gravity;
+                y += vy;
 
-            // Collision with floor
-            if (y + radius > p.height - 10) {
-                y = p.height - 10 - radius;
-                vy *= bounce;
+                // Ceiling collision (upper boundary)
+                if (y - radius < 0) {
+                    y = radius;
+                    vy *= -0.3; // Slight bounce off ceiling
+                }
 
-                // Stop when velocity is very low
-                if (p.abs(vy) < 1) vy = 0;
+                // Collision with floor
+                if (y + radius > p.height - 10) {
+                    y = p.height - 10 - radius;
+                    vy *= bounce;
+
+                    // Stop when velocity is very low
+                    if (p.abs(vy) < 1) vy = 0;
+                }
             }
 
             // Draw ball
@@ -51,34 +82,43 @@
         };
 
         const handleInteraction = () => {
-            if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY > 0 && p.mouseY < p.height) {
-                resetBall();
-                return false; // Prevent scrolling when interacting with sketch
+            const { x, y: tapY } = getTapPoint(p);
+            const ballX = p.width / 2;
+            const d = p.dist(x, tapY, ballX, y);
+
+            // If tapped on the ball, kick it and block scroll
+            if (d < radius * 2.5) {
+                if (!p.started) {
+                    p.started = true;
+                    p.loop();
+                }
+                kickBall();
+                return false; // Prevent scrolling only when interacting with the ball
+            }
+
+            // Tapped canvas but missed ball — start animation, allow scroll
+            if (!p.started) {
+                p.started = true;
+                p.loop();
             }
         };
 
         p.mousePressed = handleInteraction;
         p.touchStarted = handleInteraction;
 
-        p.windowResized = () => {
-            const container = p.canvas.parentElement;
-            p.resizeCanvas(container.offsetWidth, container.offsetHeight);
-        };
+        p.windowResized = makeResizeHandler(p, () => {
+            // Keep ball pinned to the floor until the user interacts
+            if (!p.started) y = p.height - 10 - radius;
+        });
     };
 
     // Audio Player Sketch (Card 2) - Loads audio.ogg only on user interaction
     const audioSketch = (p) => {
+        p.started = true;
         let sound, amplitude, fft, playing = false, loading = false;
         let buttonSize = 50;
-        // Track whether the AudioContext has been unlocked by a user gesture
-        let audioUnlocked = false;
 
-        p.setup = () => {
-            const container = p.canvas.parentElement;
-            p.createCanvas(container.offsetWidth, container.offsetHeight);
-            p.pixelDensity(1);
-            p.frameRate(30);
-        };
+        p.setup = () => { setupCanvas(p, 30); };
 
         p.draw = () => {
             p.background(250, 252, 255);
@@ -137,31 +177,33 @@
                 // Play Icon
                 p.triangle(cx - 5, cy - 10, cx - 5, cy + 10, cx + 10, cy);
             }
-
-            // "Tap to allow audio" hint — shown on touch devices before first interaction
-            if (!audioUnlocked && !loading && !playing) {
-                p.noStroke();
-                p.fill(49, 36, 178, 180);
-                p.rect(0, p.height - 26, p.width, 26, 0, 0, 4, 4);
-                p.fill(255);
-                p.textAlign(p.CENTER, p.CENTER);
-                p.textSize(10);
-                p.text('TOCA PARA ACTIVAR EL AUDIO', cx, p.height - 13);
-            }
         };
+
+        // Track whether the AudioContext has been unlocked by a user gesture
+        let audioUnlocked = false;
+        let isUnlocking = false;
 
         /**
          * Unlock the Web Audio API AudioContext — browsers require this to happen
-         * inside a direct user-gesture handler (touchstart / mousedown / click).
-         * Returns a Promise that resolves once the context is running.
+         * inside a direct user-gesture handler.
          */
         const unlockAudioContext = () => {
-            // p5.sound exposes getAudioContext() globally
+            if (audioUnlocked || isUnlocking) return;
+            isUnlocking = true;
+
             const ctx = typeof getAudioContext === 'function' ? getAudioContext() : null;
             const resume = ctx && ctx.state !== 'running' ? ctx.resume() : Promise.resolve();
-            // Also call p5's own userStartAudio for cross-browser safety
             const p5start = typeof p.userStartAudio === 'function' ? p.userStartAudio() : Promise.resolve();
-            return Promise.all([resume, p5start]).then(() => { audioUnlocked = true; });
+
+            Promise.all([resume, p5start])
+                .then(() => {
+                    audioUnlocked = true;
+                    isUnlocking = false;
+                })
+                .catch(err => {
+                    console.warn("AudioContext unlock failed:", err);
+                    isUnlocking = false;
+                });
         };
 
         const loadAndPlaySound = () => {
@@ -189,15 +231,6 @@
             }
         };
 
-        // Resolve tap/click coordinates regardless of input device.
-        // On touch, p.mouseX/mouseY may not be updated yet, so we read p.touches[].
-        const getTapPoint = () => {
-            if (p.touches && p.touches.length > 0) {
-                return { x: p.touches[0].x, y: p.touches[0].y };
-            }
-            return { x: p.mouseX, y: p.mouseY };
-        };
-
         const handleInteraction = () => {
             // This function runs synchronously inside a user-gesture event, so
             // unlocking the AudioContext here satisfies the browser's autoplay policy.
@@ -205,10 +238,10 @@
 
             const cx = p.width / 2;
             const cy = p.height / 2;
-            const { x, y } = getTapPoint();
+            const { x, y } = getTapPoint(p);
             const d = p.dist(x, y, cx, cy);
 
-            if (d < buttonSize / 2) {
+            if (d < buttonSize * 0.8) { // Generous hit area for mobile
                 if (loading) return false;
 
                 if (!sound || !sound.isLoaded()) {
@@ -235,14 +268,12 @@
             }
         }
 
-        p.windowResized = () => {
-            const container = p.canvas.parentElement;
-            p.resizeCanvas(container.offsetWidth, container.offsetHeight);
-        };
+        p.windowResized = makeResizeHandler(p);
     };
 
     // LED Sketch (Card 3) - Simple simulation of an interactive electronic component
     const ledSketch = (p) => {
+        p.started = true;
         let ledColor;
         let blinkStartTime;
         const blinkDuration = 500;
@@ -256,13 +287,13 @@
         ];
 
         p.setup = () => {
-            const container = p.canvas.parentElement;
-            p.createCanvas(container.offsetWidth, container.offsetHeight);
-            p.pixelDensity(1);
-            p.frameRate(30);
+            setupCanvas(p, 30);
             blinkStartTime = p.millis();
             ledColor = p.color(255, 0, 255); // initial Magenta
         };
+
+        // Called by the IntersectionObserver each time the card enters view
+        p.resetBlink = () => { blinkStartTime = p.millis(); };
 
         p.draw = () => {
             p.background(250, 252, 255);
@@ -308,23 +339,23 @@
         };
 
         const handleInteraction = () => {
-            // Check if mouse/touch is within card area
-            if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY > 0 && p.mouseY < p.height) {
-                // Restart blink timer and pick a random vibrant color from the selective palette
+            const { x, y: tapY } = getTapPoint(p);
+            const cx = p.width / 2;
+            const cy = p.height / 2 + 10;
+            const d = p.dist(x, tapY, cx, cy - 15); // Hit area around the LED dome
+
+            if (d < 45) { // Interactive area for the LED
                 blinkStartTime = p.millis();
                 const c = p.random(palette);
                 ledColor = p.color(c[0], c[1], c[2]);
-                return false; // Prevent scrolling when interacting with LED
+                return false; // Prevent scrolling only when interacting with the LED
             }
         };
 
         p.mousePressed = handleInteraction;
         p.touchStarted = handleInteraction;
 
-        p.windowResized = () => {
-            const container = p.canvas.parentElement;
-            p.resizeCanvas(container.offsetWidth, container.offsetHeight);
-        };
+        p.windowResized = makeResizeHandler(p);
     };
 
     // Initialize specific sketches by ID
@@ -333,7 +364,15 @@
             const instance = entry.target._p5_instance;
             if (instance) {
                 if (entry.isIntersecting) {
-                    instance.loop();
+                    // Only start looping if the sketch has been activated
+                    // (or doesn't use the p.started pattern)
+                    if (instance.started !== false) {
+                        instance.loop();
+                    }
+                    // Reset LED blink so it plays fresh each time the card enters view
+                    if (typeof instance.resetBlink === 'function') {
+                        instance.resetBlink();
+                    }
                 } else {
                     instance.noLoop();
                 }
