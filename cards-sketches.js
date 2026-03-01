@@ -167,6 +167,11 @@
         };
 
         const handleInteraction = () => {
+            // Required for mobile audio to work - must be called inside a user gesture
+            if (typeof p.userStartAudio === 'function') {
+                p.userStartAudio();
+            }
+
             const cx = p.width / 2;
             const cy = p.height / 2;
             const d = p.dist(p.mouseX, p.mouseY, cx, cy);
