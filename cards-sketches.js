@@ -10,7 +10,7 @@
             const container = p.canvas.parentElement;
             p.createCanvas(container.offsetWidth, container.offsetHeight);
             p.pixelDensity(1);
-            p.frameRate(15);
+            p.frameRate(30);
             resetBall();
             gravity = 0.6;
             bounce = -0.75;
@@ -66,51 +66,16 @@
         };
     };
 
-    // Audio Player Sketch (Card 2) - Lazy loads audio.ogg in background
+    // Audio Player Sketch (Card 2) - Loads audio.ogg only on user interaction
     const audioSketch = (p) => {
-        let sound, amplitude, fft, playing = false, loading = true;
+        let sound, amplitude, fft, playing = false, loading = false;
         let buttonSize = 50;
 
         p.setup = () => {
             const container = p.canvas.parentElement;
             p.createCanvas(container.offsetWidth, container.offsetHeight);
             p.pixelDensity(1);
-            p.frameRate(15);
-
-            // Lazy load sound library and audio.ogg in the background
-            setTimeout(() => {
-                if (!window.p5.prototype.loadSound) {
-                    let script = document.getElementById('p5-sound-script');
-                    if (!script) {
-                        script = document.createElement('script');
-                        script.id = 'p5-sound-script';
-                        script.src = "https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js";
-                        document.head.appendChild(script);
-                    }
-
-                    script.addEventListener('load', () => {
-                        if (!sound) { // prevent double load
-                            sound = p.loadSound('audio.ogg', () => {
-                                if (!amplitude) amplitude = new p5.Amplitude();
-                                if (!fft) fft = new p5.FFT(0.8);
-                                loading = false;
-                                sound.onended(() => {
-                                    playing = false;
-                                });
-                            });
-                        }
-                    });
-                } else if (!sound) {
-                    sound = p.loadSound('audio.ogg', () => {
-                        if (!amplitude) amplitude = new p5.Amplitude();
-                        if (!fft) fft = new p5.FFT(0.8);
-                        loading = false;
-                        sound.onended(() => {
-                            playing = false;
-                        });
-                    });
-                }
-            }, 1000); // Wait 1 second after setup to ensure page render priority
+            p.frameRate(30);
         };
 
         p.draw = () => {
@@ -173,15 +138,48 @@
             }
         };
 
+        const loadAndPlaySound = () => {
+            if (loading) return;
+            loading = true;
+
+            // p5.sound should be loaded via index.html defer script
+            if (typeof p.loadSound === 'function') {
+                sound = p.loadSound('lib/audio.ogg',
+                    () => {
+                        amplitude = new p5.Amplitude();
+                        fft = new p5.FFT(0.8);
+                        loading = false;
+                        sound.onended(() => {
+                            playing = false;
+                        });
+                        togglePlay(); // Play immediately after loading
+                    },
+                    (err) => {
+                        console.error("Failed to load audio:", err);
+                        loading = false;
+                        sound = null;
+                    }
+                );
+            } else {
+                console.error("p5.sound library not found");
+                loading = false;
+            }
+        };
+
         const handleInteraction = () => {
             const cx = p.width / 2;
             const cy = p.height / 2;
             const d = p.dist(p.mouseX, p.mouseY, cx, cy);
 
             if (d < buttonSize / 2) {
-                if (loading || !sound || !sound.isLoaded()) return false;
-                togglePlay();
-                return false; // Prevent scrolling when interacting with button
+                if (loading) return false;
+
+                if (!sound || !sound.isLoaded()) {
+                    loadAndPlaySound();
+                } else {
+                    togglePlay();
+                }
+                return false;
             }
         };
 
@@ -189,6 +187,8 @@
         p.touchStarted = handleInteraction;
 
         function togglePlay() {
+            if (!sound || !sound.isLoaded()) return;
+
             if (sound.isPlaying()) {
                 sound.pause();
                 playing = false;
@@ -222,7 +222,7 @@
             const container = p.canvas.parentElement;
             p.createCanvas(container.offsetWidth, container.offsetHeight);
             p.pixelDensity(1);
-            p.frameRate(15);
+            p.frameRate(30);
             blinkStartTime = p.millis();
             ledColor = p.color(255, 0, 255); // initial Magenta
         };
