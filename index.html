@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arte & Codigo desde cero</title>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js"></script>
+    <title>Arte & Codig: Desde cero</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Typography: stable line-height to reduce CLS. If adding webfonts, preload and use font-display: optional. */
@@ -68,7 +67,7 @@
                     ARTE & Código
                 </h1>
                 <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-xl mx-auto">
-                    Crear arte generativo e interactivo desde cero: Una introducción práctica a la programación creativa
+                    Crea arte generativo e interactivo desde cero: Una introducción práctica a la programación creativa
                 </p>
 
                 <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
@@ -266,7 +265,7 @@
                                 </span>
                                 <span><strong class="text-slate-800">Formato híbrido</strong> — Modalidad presencial con
                                     transmisión en vivo simultánea. Diseñado para combinar la calidez del encuentro
-                                    físico con la flexibilidad para quienes no puedan desplazarse.</span>
+                                    con la flexibilidad para quienes no puedan desplazarse.</span>
                             </li>
                             <li class="flex gap-3 items-start">
                                 <span
@@ -277,7 +276,7 @@
                                             d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                     </svg>
                                 </span>
-                                <span><strong class="text-slate-800">Material y comunidad</strong> — ntrega de guías,
+                                <span><strong class="text-slate-800">Material y comunidad</strong> — Entrega de guías,
                                     diapositivas y grabaciones de cada sesión. Incluye acceso a nuestra comunidad de
                                     creativos con mentoría constante y beneficios preferenciales en futuros cursos de
                                     profundización.</span>
@@ -493,7 +492,7 @@
 
         // Sketch p5.js: campo de partículas violetas con estelas que se desvanecen.
         var particles = [];
-        var numParticles = 220;
+        var numParticles = window.innerWidth < 768 ? 110 : 220;
 
         function setup() {
             var cnv = createCanvas(windowWidth, windowHeight);
@@ -562,7 +561,7 @@
             resizeCanvas(windowWidth, windowHeight);
         }
     </script>
-    <script src="cards-sketches.js"></script>
+    <script src="cards-sketches.js" defer></script>
 </body>
 
 </html>

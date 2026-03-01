@@ -9,6 +9,7 @@
         p.setup = () => {
             const container = p.canvas.parentElement;
             p.createCanvas(container.offsetWidth, container.offsetHeight);
+            p.pixelDensity(1);
             resetBall();
             gravity = 0.6;
             bounce = -0.75;
@@ -48,11 +49,15 @@
             p.ellipse(p.width / 2, y, radius * 2);
         };
 
-        p.mousePressed = () => {
+        const handleInteraction = () => {
             if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY > 0 && p.mouseY < p.height) {
                 resetBall();
+                return false; // Prevent scrolling when interacting with sketch
             }
         };
+
+        p.mousePressed = handleInteraction;
+        p.touchStarted = handleInteraction;
 
         p.windowResized = () => {
             const container = p.canvas.parentElement;
@@ -68,8 +73,7 @@
         p.setup = () => {
             const container = p.canvas.parentElement;
             p.createCanvas(container.offsetWidth, container.offsetHeight);
-            amplitude = new p5.Amplitude();
-            fft = new p5.FFT(0.8);
+            p.pixelDensity(1);
         };
 
         p.draw = () => {
@@ -78,7 +82,7 @@
             const cy = p.height / 2;
 
             // Dynamic Organic Waveform
-            if (playing && sound && sound.isLoaded()) {
+            if (playing && sound && sound.isLoaded() && amplitude && fft) {
                 const waveform = fft.waveform();
                 const level = amplitude.getLevel();
 
@@ -132,15 +136,41 @@
             }
         };
 
-        p.mousePressed = () => {
+        const handleInteraction = () => {
             const cx = p.width / 2;
             const cy = p.height / 2;
             const d = p.dist(p.mouseX, p.mouseY, cx, cy);
 
             if (d < buttonSize / 2) {
-                if (!sound) {
+                if (loading) return false;
+                if (!window.p5.prototype.loadSound) {
+                    loading = true;
+                    let script = document.getElementById('p5-sound-script');
+                    if (!script) {
+                        script = document.createElement('script');
+                        script.id = 'p5-sound-script';
+                        script.src = "https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js";
+                        document.head.appendChild(script);
+                    }
+
+                    script.addEventListener('load', () => {
+                        if (!sound) { // prevent double load
+                            sound = p.loadSound('audio.ogg', () => {
+                                if (!amplitude) amplitude = new p5.Amplitude();
+                                if (!fft) fft = new p5.FFT(0.8);
+                                loading = false;
+                                sound.onended(() => {
+                                    playing = false;
+                                });
+                                togglePlay();
+                            });
+                        }
+                    });
+                } else if (!sound) {
                     loading = true;
                     sound = p.loadSound('audio.ogg', () => {
+                        if (!amplitude) amplitude = new p5.Amplitude();
+                        if (!fft) fft = new p5.FFT(0.8);
                         loading = false;
                         sound.onended(() => {
                             playing = false;
@@ -150,8 +180,12 @@
                 } else {
                     togglePlay();
                 }
+                return false; // Prevent scrolling when interacting with button
             }
         };
+
+        p.mousePressed = handleInteraction;
+        p.touchStarted = handleInteraction;
 
         function togglePlay() {
             if (sound.isPlaying()) {
@@ -186,6 +220,7 @@
         p.setup = () => {
             const container = p.canvas.parentElement;
             p.createCanvas(container.offsetWidth, container.offsetHeight);
+            p.pixelDensity(1);
             blinkStartTime = p.millis();
             ledColor = p.color(255, 0, 255); // initial Magenta
         };
@@ -233,15 +268,19 @@
             p.pop();
         };
 
-        p.mousePressed = () => {
-            // Check if mouse is within card area
+        const handleInteraction = () => {
+            // Check if mouse/touch is within card area
             if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY > 0 && p.mouseY < p.height) {
                 // Restart blink timer and pick a random vibrant color from the selective palette
                 blinkStartTime = p.millis();
                 const c = p.random(palette);
                 ledColor = p.color(c[0], c[1], c[2]);
+                return false; // Prevent scrolling when interacting with LED
             }
         };
+
+        p.mousePressed = handleInteraction;
+        p.touchStarted = handleInteraction;
 
         p.windowResized = () => {
             const container = p.canvas.parentElement;
@@ -250,13 +289,31 @@
     };
 
     // Initialize specific sketches by ID
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const instance = entry.target._p5_instance;
+            if (instance) {
+                if (entry.isIntersecting) {
+                    instance.loop();
+                } else {
+                    instance.noLoop();
+                }
+            }
+        });
+    }, { threshold: 0.1 });
+
     containers.forEach(container => {
+        let instance;
         if (container.id === 'sketch-1') {
-            new p5(bouncySketch, container);
+            instance = new p5(bouncySketch, container);
         } else if (container.id === 'sketch-2') {
-            new p5(audioSketch, container);
+            instance = new p5(audioSketch, container);
         } else if (container.id === 'sketch-3') {
-            new p5(ledSketch, container);
+            instance = new p5(ledSketch, container);
+        }
+        if (instance) {
+            container._p5_instance = instance;
+            observer.observe(container);
         }
     });
 })();
