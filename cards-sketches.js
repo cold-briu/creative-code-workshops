@@ -169,7 +169,7 @@
             loading = true;
 
             if (typeof p.loadSound === 'function') {
-                sound = p.loadSound('lib/audio.ogg',
+                sound = p.loadSound('lib/audio.mp3',
                     () => {
                         amplitude = new p5.Amplitude();
                         fft = new p5.FFT(0.8);
