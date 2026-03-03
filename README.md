@@ -1,62 +1,52 @@
-# Hagamole Pues
+# ARTE & Código: Taller Creativo
 
-Hosted at El Escampadero, Medellín
+Repositorio oficial del taller de arte generativo e interactivo. Una introducción práctica a la programación creativa usando **p5.js** y **Arduino** para fusionar el mundo virtual con el real.
 
-🚀 Transform Your Art Through Code  
-This is not just a programming course; it is a gateway for visual artists to claim their space in a digital-first world. This hands-on workshop bridges the gap between technical logic and creative soul. Using our unique "guided-code to creative-challenge" methodology, you will transform real-time data and hardware into immersive sensory experiences.
+---
 
-## 📅 Logistics & Investment
+## 📅 Programa y Sesiones (Abril 2026)
 
-- **Dates**: 3 Saturdays, starting February 14th
-- **Schedule**: 2 hours per session
-- **Venue**: El Escampadero, Medellín
-- **Capacity**: Strictly limited to 10 participants
-- **Required Gear**: Just your laptop. We handle the rest.
-- **Investment**:
-  - **Standard Tuition**: $350.000 COP
-  - **Early Bird**: $300.000 COP (Register early and save!)
+El taller consta de tres sesiones los sábados, de **10:00 am a 12:00 m**.
 
-## 🎓 The Curriculum
+| Sesión | Fecha | Temática Principal |
+| :--- | :--- | :--- |
+| **01** | 11 de Abril | **Fundamentos:** Dibujo con código y lógica básica en p5.js. |
+| **02** | 18 de Abril | **Interactividad:** Uso de cámara, teclado, mouse y datos en vivo. |
+| **03** | 25 de Abril | **Interfaces:** Conexión con Arduino y dispositivos físicos. |
 
-### 1. Hola Mundo (Hello World)
-- **Focus**: Mastering the Creative Canvas  
-- **The Goal**: Move from "blank screen" to a living, breathing particle system  
-- **Learning Focus**: p5.js fundamentals, coordinates, and real-time keyboard/mouse interaction  
-- **Outcome**: A custom interactive system that responds to your touch
 
-### 2. Hola Yo (Hello Me)
-- **Focus**: You are the Data  
-- **The Goal**: Use your voice and your image as the brush  
-- **Learning Focus**: Accessing camera/microphone feeds and mapping movement to visual distortion  
-- **Outcome**: Audio-reactive visuals that transform sound and motion into digital art
 
-### 3. Hola Bichos (Hello Bugs)
-- **Focus**: Breaking the Screen Barrier  
-- **The Goal**: Control the digital world with physical objects  
-- **Learning Focus**: Arduino integration and serial communication with physical sensors  
-- **Outcome**: A "digital bug" system where physical sensors (light, distance) manipulate your code
+## 📍 Información General
 
-## 👨‍🏫 Meet Your Instructor
+* **Sede:** "El Escampadero" (Barrio Laureles, Medellín, Colombia).
+* **Formato:** Híbrido (Presencial con transmisión en vivo simultánea).
+* **Cupos:** Máximo 10 participantes.
+* **Inscripción:** [Formulario de registro](https://forms.gle/Yi8ykm4rRXDvgugj8)
+    * *14% de descuento por inscripción anticipada hasta el 14 de marzo.*
 
-12321321 – A "mighty nerd" standing at the intersection of Art and Fintech.  
-With a career built on blending the precision of financial technology with the fluidity of creative expression, Ferchito brings a unique, practical perspective to coding. He doesn't just teach you how to code; he teaches you how to think like a digital architect.
 
-## 🛠️ What’s Included (Your Toolkit)
 
-Beyond the classes, every student receives a "Deep Dive" bundle:
+## 🛠️ Contenido del Repositorio
 
-- **Class Slides & Syllabus**: Comprehensive guides for every module  
-- **Source Code**: All templates and scripts used in class  
-- **The "Deep Dive" Guide**: A curated roadmap through the p5.js documentation  
-- **Workflow Integration**: Learn to create and deploy quick scripts that fit into your existing artistic process
+* **Animaciones y simulaciones:** Código base para experiencias interactivas.
+* **Datos y sonido:** Scripts para transformar audio y datos externos en visuales.
+* **Arduino:** Archivos de configuración para interfaces físicas.
+* **Material:** Guías, diapositivas y grabaciones de cada sesión.
 
-## 🌐 The Community & Career Impact
 
-We believe your journey shouldn't end when the class does. By joining, you gain:
+## 🧙‍♂️ Facilitador
+**Andrés F**
 
-- **Digital Artist Community**: Lifetime access to our chat support group  
-- **1-on-1 Support**: Book personal "Office Hours" for specific project hurdles  
-- **VIP Access**: Priority registration and exclusive discounts for all future workshops  
-- **Career Growth**: Build a toolkit to navigate a code-first industry and become a more versatile, competitive creator
+Creativo multidisciplinar con un enfoque híbrido entre el desarrollo de software y las artes. 
 
-Ready to break the code? Secure your spot at El Escampadero.
+Con más de una década de experiencia en el sector cultural, su práctica integra la programación creativa y el software interactivo con lenguajes visuales como el video y la fotografía, la experimentación sonora y la gestión de datos en vivo, desempeñándose además como facilitador en entornos de educación informal y proyectos colaborativos.
+
+
+## 📞 Contacto
+* **Instagram:** [@artilugio_taller](https://instagram.com/artilugio_taller) / [@elescampadero](https://instagram.com/elescampadero)
+* **Ubicación:** Medellín, Colombia.
+
+---
+**Iniciativa de:** Artilugio Taller & El Escampadero.
+
+© 2026 Arte & Código. Todos los derechos reservados.
