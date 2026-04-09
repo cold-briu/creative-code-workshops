@@ -22,6 +22,10 @@ p5.js is a JavaScript library designed for creative coding, with a focus on maki
    - [3.5 Reversing Direction: `speed`](#35-reversing-direction-speed)
    - [3.6 The Bottom Boundary](#36-the-bottom-boundary)
    - [3.7 The Result](#37-the-result)
+4. [Interacting with Mouse](#4-interacting-with-mouse)
+   - [4.1 The Vertical Mouse: `mouseY`](#41-the-vertical-mouse-mousey)
+   - [4.2 The Horizontal Mouse: `mouseX`](#42-the-horizontal-mouse-mousex)
+   - [4.3 The Result](#43-the-result)
 
 ## 1. First HTML Template
 Before we start drawing with p5.js, we need a solid foundation. We'll build a minimal HTML file that will serve as the host for our creative code.
@@ -382,3 +386,108 @@ Finally, we want it to bounce off the bottom too. We'll add another condition to
 Now you have a dynamic sketch! The circle moves smoothly up and down, bouncing whenever it hits a boundary. This interplay between variables, logic (`if`), and the `draw()` loop is the essence of animation.
 
 ![Final result shown in browser](./images/3-first-movement.gif)
+
+## 4. Interacting with Mouse
+So far, our circle has been moving on its own. Now, let's give the user control by using the mouse coordinates. p5.js provides special variables that track the mouse position automatically.
+
+### 4.1 The Vertical Mouse: `mouseY`
+Instead of using the `speed` variable to move the circle, we'll use `mouseY`. This variable stores the current vertical position of the mouse. Even though the mouse is now in control, we'll keep the boundary logic from the previous section to ensure the circle doesn't escape our canvas!
+
+```html
+<html>
+  <head>
+    <title>P5.js First Shape</title>
+    <style>
+      body {
+        font-family: Helvetica, sans-serif;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+    <script>
+      let y = 200;
+
+      function setup() {
+        createCanvas(400, 400);
+      }
+
+      function draw() {
+        background(220);
+        
+        y = mouseY;
+
+        // Keeping the boundaries from Section 3
+        if (y < 0) {
+          y = 0;
+        }
+
+        if (y > 400) {
+          y = 400;
+        }
+
+        circle(200, y, 100);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>My Creative Sketch</h1>
+  </body>
+</html>
+```
+
+### 4.2 The Horizontal Mouse: `mouseX`
+Now, let's add horizontal control. We'll create a new variable `x` and assign it the value of `mouseX`. We'll also apply the boundary logic to `x`, so the circle stays fully contained within our 400x400 area. Now the circle will follow your cursor across the entire canvas!
+
+```html
+<html>
+  <head>
+    <title>P5.js First Shape</title>
+    <style>
+      body {
+        font-family: Helvetica, sans-serif;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+    <script>
+      let x = 200;
+      let y = 200;
+
+      function setup() {
+        createCanvas(400, 400);
+      }
+
+      function draw() {
+        background(220);
+        
+        x = mouseX;
+        y = mouseY;
+
+        // Vertical Boundaries
+        if (y < 0) {
+          y = 0;
+        }
+        if (y > 400) {
+          y = 400;
+        }
+
+        // Horizontal Boundaries
+        if (x < 0) {
+          x = 0;
+        }
+        if (x > 400) {
+          x = 400;
+        }
+
+        circle(x, y, 100);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>My Creative Sketch</h1>
+  </body>
+</html>
+```
+
+### 4.3 The Result
+Your sketch is now interactive! The circle follows your mouse movements in real-time. This is the foundation of creating interactive animations and games.
+
+![Final result shown in browser](./images/4-interacting-with-mouse.gif)
