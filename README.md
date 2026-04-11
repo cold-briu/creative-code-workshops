@@ -11,7 +11,7 @@ El taller consta de tres sesiones los sábados, de **10:00 am a 12:00 m**.
 | Sesión | Fecha | Temática Principal |
 | :--- | :--- | :--- |
 | **01** | 11 de Abril | **Fundamentos:** Dibujo con código y lógica básica en p5.js. |
-| **02** | 18 de Abril | **Interactividad:** Uso de cámara, teclado, mouse y datos en vivo. |
+| **02** | 18 de Abril | **Interactividad:** Uso de cámara, teclado y datos de audio. |
 | **03** | 25 de Abril | **Interfaces:** Conexión con Arduino y dispositivos físicos. |
 
 
@@ -32,6 +32,15 @@ El taller consta de tres sesiones los sábados, de **10:00 am a 12:00 m**.
 * **Datos y sonido:** Scripts para transformar audio y datos externos en visuales.
 * **Arduino:** Archivos de configuración para interfaces físicas.
 * **Material:** Guías, diapositivas y grabaciones de cada sesión.
+
+
+## 🔗 Links
+
+* [Lauren McCarthy](https://get-lauren.net/p5-js)
+* [Daniel Shiffman coding train](https://thecodingtrain.com/)
+* [p5 js ref](https://p5js.org/reference/)
+* [Antigravity editor](https://antigravity.google/download/)
+* [GitHub](https://github.com/)
 
 
 ## 🧙‍♂️ Facilitador
