@@ -1,6 +1,6 @@
-# First shape in p5.js
+# Primera forma en p5.js
 
-p5.js is a JavaScript library designed for creative coding, with a focus on making coding accessible for artists, designers, educators, and beginners. Based on the principles of Processing, p5.js allows you to create interactive graphics, animations, and sound directly in the browser in a simple and visual way.
+p5.js es una librería de JavaScript enfocada en el **creative coding**, diseñada para que programar sea accesible para artistas, diseñadores y principiantes. Basada en los principios de Processing, p5.js te permite crear gráficos interactivos, animaciones y sonido directamente en el navegador de una forma sencilla y visual.
 
 ## Index
 1. [First HTML Template](#1-first-html-template)
@@ -27,19 +27,19 @@ p5.js is a JavaScript library designed for creative coding, with a focus on maki
    - [4.2 The Horizontal Mouse: `mouseX`](#42-the-horizontal-mouse-mousex)
    - [4.3 The Result](#43-the-result)
 
-## 1. First HTML Template
-Before we start drawing with p5.js, we need a solid foundation. We'll build a minimal HTML file that will serve as the host for our creative code.
+## 1. Primera plantilla HTML
+Antes de empezar a dibujar con p5.js, necesitamos una base sólida. Vamos a construir un archivo HTML mínimo que servirá como base para nuestro código creativo.
 
-### 1.1 The Container: `<html>`
-Every web page starts with the `<html>` tag. It's the root container that holds everything else.
+### 1.1 El contenedor: `<html>`
+Toda página web empieza con el **tag** `<html>`. Es el contenedor **root** que guarda todo lo demás.
 
 ```html
 <html>
 </html>
 ```
 
-### 1.2 The Brain: `<head>` & `<title>`
-The `<head>` section is the "brain" of our page. It contains metadata and instructions for the browser, such as the title that appears in the tab.
+### 1.2 El cerebro: `<head>` & `<title>`
+La sección `<head>` es el "cerebro" de nuestra página. Contiene metadatos e instrucciones para el navegador, como el título que aparece arriba en la pestaña.
 
 ```html
 <html>
@@ -49,8 +49,8 @@ The `<head>` section is the "brain" of our page. It contains metadata and instru
 </html>
 ```
 
-### 1.3 The Content: `<body>` & `<h1>`
-The `<body>` is where the visible parts of our page live. We'll add an `<h1>` heading to identify our project.
+### 1.3 El contenido: `<body>` & `<h1>`
+El `<body>` es donde vive toda la parte visible de nuestra página. Agregaremos un **tag** `<h1>` para darle un título a nuestro proyecto.
 
 ```html
 <html>
@@ -63,8 +63,8 @@ The `<body>` is where the visible parts of our page live. We'll add an `<h1>` he
 </html>
 ```
 
-### 1.4 The Style: `<style>` & Helvetica
-To make our page look professional, we'll add some CSS. We'll use a `<style>` tag to change the font of the entire body to Helvetica.
+### 1.4 El estilo: `<style>` & Helvetica
+Para que nuestra página se vea profesional, vamos a meterle algo de CSS. Usaremos un **tag** `<style>` para cambiar la tipografía de todo el **body** a Helvetica.
 
 ```html
 <html>
@@ -82,16 +82,16 @@ To make our page look professional, we'll add some CSS. We'll use a `<style>` ta
 </html>
 ```
 
-### 1.5 The Result
-When you open this file, you should see your title in a clean Helvetica font. This is our empty canvas, ready for p5.js!
+### 1.5 El resultado
+Cuando abras este archivo, deberías ver tu título con una tipografía Helvetica limpia. ¡Este es nuestro lienzo vacío, listo para p5.js!
 
-![Final result shown in browser](./images/1-first-html-template.png)
+![Resultado final mostrado en el navegador](./images/1-first-html-template.png)
 
-## 2. First p5.js Sketch
-Now that we have our template, it's time to bring it to life with p5.js. We'll add the library and write our first piece of creative code.
+## 2. Primer sketch en p5.js
+Ahora que ya tenemos nuestra plantilla, es hora de darle vida con p5.js. Vamos a agregar la librería y a escribir nuestro primer código creativo.
 
-### 2.1 The p5.js Library: `script`
-To use p5.js, we need to tell our browser where to find it. We'll add a `<script>` tag in the `<head>` that links to the p5.js library.
+### 2.1 La librería p5.js: `script`
+Para usar p5.js, tenemos que decirle a nuestro navegador dónde encontrarla. Vamos a agregar un **tag** `<script>` en el `<head>` que conecte con la librería de p5.js.
 
 ```html
 <html>
@@ -110,8 +110,8 @@ To use p5.js, we need to tell our browser where to find it. We'll add a `<script
 </html>
 ```
 
-### 2.2 Setting up the Canvas: `setup()`
-In p5.js, the `setup()` function runs once when the program starts. It's the perfect place to create our drawing area, called a "canvas". We'll make it a 400x400 square.
+### 2.2 Configurando el Canvas: `setup()`
+En p5.js, la función `setup()` se ejecuta una sola vez en cuanto el programa arranca. Es el lugar perfecto para crear nuestra área de dibujo, llamada "canvas". Lo haremos un cuadrado de 400x400.
 
 ```html
 <html>
@@ -135,8 +135,8 @@ In p5.js, the `setup()` function runs once when the program starts. It's the per
 </html>
 ```
 
-### 2.3 Drawing a Shape: `circle()`
-Now for the magic. We'll use the `circle()` function inside `setup()` to draw a shape. It takes three numbers: the x-position, the y-position, and the diameter.
+### 2.3 Dibujando una forma: `circle()`
+Ahora viene la magia. Usaremos la función `circle()` dentro de `setup()` para dibujar una forma. Recibe tres números: la posición en x, la posición en y, y el diámetro.
 
 ```html
 <html>
@@ -161,16 +161,16 @@ Now for the magic. We'll use the `circle()` function inside `setup()` to draw a 
 </html>
 ```
 
-### 2.4 The Result
-Congratulations! You've just written your first p5.js sketch. You should see a square canvas with a circle right in the center.
+### 2.4 El resultado
+¡Felicidades! Acabas de escribir tu primer sketch en p5.js. Deberías ver un canvas cuadrado con un círculo justo en el centro.
 
-![Final result shown in browser](./images/2-first-p5-js-sketch.png)
+![Resultado final mostrado en el navegador](./images/2-first-p5-js-sketch.png)
 
-## 3. First Movement
-Moving a shape is like making a flipbook. We need to remember where our shape is, and slightly change that position every time the page turns.
+## 3. Primer movimiento
+Mover una forma es como hacer un flipbook. Necesitamos recordar dónde está nuestra forma e ir cambiando ligeramente esa posición cada vez que la página "pasa".
 
-### 3.1 The Variable: `y`
-To remember the position of our circle, we'll create a variable called `y`. This variable will hold the vertical position of our shape. We define it at the very top, outside of any functions.
+### 3.1 La variable: `y`
+Para recordar la posición de nuestro círculo, crearemos una **variable** llamada `y`. Esta variable guardará la posición vertical de nuestra forma. La definiremos al principio de todo, fuera de cualquier función.
 
 ```html
 <html>
@@ -196,8 +196,8 @@ To remember the position of our circle, we'll create a variable called `y`. This
 </html>
 ```
 
-### 3.2 The Engine: `draw()`
-p5.js has a special function called `draw()`. While `setup()` runs only once, `draw()` runs 60 times every second! This is where we put everything that needs to move. We'll also add `background(220)` to clear the canvas every frame, otherwise our movement will leave a trail like a paintbrush.
+### 3.2 El motor: `draw()`
+p5.js tiene una función especial llamada `draw()`. Mientras que `setup()` corre solo una vez, ¡`draw()` se ejecuta 60 veces por segundo! Aquí es donde ponemos todo lo que necesite moverse. También agregaremos `background(220)` para limpiar el canvas cada frame; si no lo hacemos, el movimiento dejará un rastro como si fuera un pincel.
 
 ```html
 <html>
@@ -228,8 +228,8 @@ p5.js has a special function called `draw()`. While `setup()` runs only once, `d
 </html>
 ```
 
-### 3.3 Moving Upwards: Linear Movement
-To make the circle move, we need to change the value of `y` inside `draw()`. Since the top of the canvas is `0`, reducing the `y` value will make the circle move upwards.
+### 3.3 Moviendo hacia arriba: Movimiento lineal
+Para hacer que el círculo se mueva, tenemos que cambiar el valor de `y` dentro de `draw()`. Como la parte superior del canvas es `0`, al restar valor a `y` el círculo se moverá hacia arriba.
 
 ```html
 <html>
@@ -262,8 +262,8 @@ To make the circle move, we need to change the value of `y` inside `draw()`. Sin
 </html>
 ```
 
-### 3.4 The Top Boundary: `if`
-Right now, the circle disappears off the top screen. We can use an `if` statement to check if it has reached the edge. If `y` is less than `0`, we'll reset it to the bottom (`400`) to create a loop.
+### 3.4 El límite superior: `if`
+Ahora mismo, el círculo desaparece por arriba de la pantalla. Podemos usar un `if` para chequear si llegó al borde. Si `y` es menor a `0`, lo reseteamos al fondo (`400`) para crear un loop infinito.
 
 ```html
 <html>
@@ -300,8 +300,8 @@ Right now, the circle disappears off the top screen. We can use an `if` statemen
 </html>
 ```
 
-### 3.5 Reversing Direction: `speed`
-Instead of teleporting, let's make it bounce. We'll add another variable called `speed`. Now, instead of hardcoding `y = y - 2`, we'll say `y = y + speed`. If we hit the top, we multiply `speed` by `-1` to reverse it!
+### 3.5 Cambiando de dirección: `speed`
+En lugar de teletransportarlo, vamos a hacer que rebote. Agregaremos otra variable llamada `speed`. Ahora, en vez de escribir `y = y - 2`, usaremos `y = y + speed`. ¡Si tocamos el tope, multiplicamos `speed` por `-1` para invertir la dirección!
 
 ```html
 <html>
@@ -339,8 +339,8 @@ Instead of teleporting, let's make it bounce. We'll add another variable called 
 </html>
 ```
 
-### 3.6 The Bottom Boundary
-Finally, we want it to bounce off the bottom too. We'll add another condition to our `if` statement. If `y` is greater than `400`, we'll reverse the direction again.
+### 3.6 El límite inferior
+Por último, queremos que también rebote abajo. Agregaremos otra condición a nuestro `if`: si `y` es mayor a `400`, invertiremos la dirección una vez más.
 
 ```html
 <html>
@@ -382,16 +382,16 @@ Finally, we want it to bounce off the bottom too. We'll add another condition to
 </html>
 ```
 
-### 3.7 The Result
-Now you have a dynamic sketch! The circle moves smoothly up and down, bouncing whenever it hits a boundary. This interplay between variables, logic (`if`), and the `draw()` loop is the essence of animation.
+### 3.7 El resultado
+¡Ahora ya tienes un sketch dinámico! El círculo se mueve fluidamente de arriba abajo, rebotando cada vez que toca un límite. Este juego entre variables, lógica (`if`) y el loop de `draw()` es la esencia de la animación.
 
-![Final result shown in browser](./images/3-first-movement.gif)
+![Resultado final mostrado en el navegador](./images/3-first-movement.gif)
 
-## 4. Interacting with Mouse
-So far, our circle has been moving on its own. Now, let's give the user control by using the mouse coordinates. p5.js provides special variables that track the mouse position automatically.
+## 4. Interactuando con el mouse
+Hasta ahora, nuestro círculo se movía por su cuenta. Ahora vamos a darle el control al usuario por medio de las coordenadas del mouse. p5.js nos da variables especiales que siguen la posición del puntero automáticamente.
 
-### 4.1 The Vertical Mouse: `mouseY`
-Instead of using the `speed` variable to move the circle, we'll use `mouseY`. This variable stores the current vertical position of the mouse. Even though the mouse is now in control, we'll keep the boundary logic from the previous section to ensure the circle doesn't escape our canvas!
+### 4.1 El mouse vertical: `mouseY`
+En lugar de usar la variable `speed` para mover el círculo, vamos a usar `mouseY`. Esta variable guarda la posición vertical actual del mouse. Aunque ahora el mouse tenga el control, ¡mantendremos la lógica de límites de la sección anterior para asegurarnos de que el círculo no se escape de nuestro canvas!
 
 ```html
 <html>
@@ -434,8 +434,8 @@ Instead of using the `speed` variable to move the circle, we'll use `mouseY`. Th
 </html>
 ```
 
-### 4.2 The Horizontal Mouse: `mouseX`
-Now, let's add horizontal control. We'll create a new variable `x` and assign it the value of `mouseX`. We'll also apply the boundary logic to `x`, so the circle stays fully contained within our 400x400 area. Now the circle will follow your cursor across the entire canvas!
+### 4.2 El mouse horizontal: `mouseX`
+Ahora vamos a sumar control horizontal. Crearemos una variable `x` y le daremos el valor de `mouseX`. También le pondremos límites a `x` para que el círculo no se salga de nuestra área de 400x400. ¡Ahora el círculo va a seguir tu cursor por todo el canvas!
 
 ```html
 <html>
@@ -487,7 +487,7 @@ Now, let's add horizontal control. We'll create a new variable `x` and assign it
 </html>
 ```
 
-### 4.3 The Result
-Your sketch is now interactive! The circle follows your mouse movements in real-time. This is the foundation of creating interactive animations and games.
+### 4.3 El resultado
+¡Tu sketch ahora es interactivo! El círculo sigue los movimientos de tu mouse en tiempo real. Esta es la base para crear animaciones y juegos interactivos.
 
-![Final result shown in browser](./images/4-interacting-with-mouse.gif)
+![Resultado final mostrado en el navegador](./images/4-interacting-with-mouse.gif)
