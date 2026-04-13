@@ -3,29 +3,29 @@
 p5.js es una librería de JavaScript enfocada en el **creative coding**, diseñada para que programar sea accesible para artistas, diseñadores y principiantes. Basada en los principios de Processing, p5.js te permite crear gráficos interactivos, animaciones y sonido directamente en el navegador de una forma sencilla y visual.
 
 ## Index
-1. [First HTML Template](#1-first-html-template)
-   - [1.1 The Container: `<html>`](#11-the-container-html)
-   - [1.2 The Brain: `<head>` & `<title>`](#12-the-brain-head--title)
-   - [1.3 The Content: `<body>` & `<h1>`](#13-the-content-body--h1)
-   - [1.4 The Style: `<style>` & Helvetica](#14-the-style-style--helvetica)
-   - [1.5 The Result](#15-the-result)
-2. [First p5.js Sketch](#2-first-p5-js-sketch)
-   - [2.1 The p5.js Library: `script`](#21-the-p5js-library-script)
-   - [2.2 Setting up the Canvas: `setup()`](#22-setting-up-the-canvas-setup)
-   - [2.3 Drawing a Shape: `circle()`](#23-drawing-a-shape-circle)
-   - [2.4 The Result](#24-the-result)
-3. [First Movement](#3-first-movement)
-   - [3.1 The Variable: `y`](#31-the-variable-y)
-   - [3.2 The Engine: `draw()`](#32-the-engine-draw)
-   - [3.3 Moving Upwards: Linear Movement](#33-moving-upwards-linear-movement)
-   - [3.4 The Top Boundary: `if`](#34-the-top-boundary-if)
-   - [3.5 Reversing Direction: `speed`](#35-reversing-direction-speed)
-   - [3.6 The Bottom Boundary](#36-the-bottom-boundary)
-   - [3.7 The Result](#37-the-result)
-4. [Interacting with Mouse](#4-interacting-with-mouse)
-   - [4.1 The Vertical Mouse: `mouseY`](#41-the-vertical-mouse-mousey)
-   - [4.2 The Horizontal Mouse: `mouseX`](#42-the-horizontal-mouse-mousex)
-   - [4.3 The Result](#43-the-result)
+1. [Primera plantilla HTML](#1-primera-plantilla-html)
+   - [1.1 El contenedor: `<html>`](#11-el-contenedor-html)
+   - [1.2 El cerebro: `<head>` & `<title>`](#12-el-cerebro-head--title)
+   - [1.3 El contenido: `<body>` & `<h1>`](#13-el-contenido-body--h1)
+   - [1.4 El estilo: `<style>` & Helvetica](#14-el-estilo-style--helvetica)
+   - [1.5 El resultado](#15-el-resultado)
+2. [Primer sketch en p5.js](#2-primer-sketch-en-p5js)
+   - [2.1 La librería p5.js: `<script>`](#21-la-librería-p5js-script)
+   - [2.2 Configurando el Canvas: `setup()`](#22-configurando-el-canvas-setup)
+   - [2.3 Dibujando una forma: `circle()`](#23-dibujando-una-forma-circle)
+   - [2.4 El resultado](#24-el-resultado)
+3. [Primer movimiento](#3-primer-movimiento)
+   - [3.1 La variable: `y`](#31-la-variable-y)
+   - [3.2 El motor: `draw()`](#32-el-motor-draw)
+   - [3.3 Moviendo hacia arriba: Movimiento lineal](#33-moviendo-hacia-arriba-movimiento-lineal)
+   - [3.4 El límite superior: `if`](#34-el-límite-superior-if)
+   - [3.5 Cambiando de dirección: `speed`](#35-cambiando-de-dirección-speed)
+   - [3.6 El límite inferior](#36-el-límite-inferior)
+   - [3.7 El resultado](#37-el-resultado)
+4. [Interactuando con el mouse](#4-interactuando-con-el-mouse)
+   - [4.1 El mouse vertical: `mouseY`](#41-el-mouse-vertical-mousey)
+   - [4.2 El mouse horizontal: `mouseX`](#42-el-mouse-horizontal-mousex)
+   - [4.3 El resultado](#43-el-resultado)
 
 ## 1. Primera plantilla HTML
 Antes de empezar a dibujar con p5.js, necesitamos una base sólida. Vamos a construir un archivo HTML mínimo que servirá como base para nuestro código creativo.
@@ -90,7 +90,7 @@ Cuando abras este archivo, deberías ver tu título con una tipografía Helvetic
 ## 2. Primer sketch en p5.js
 Ahora que ya tenemos nuestra plantilla, es hora de darle vida con p5.js. Vamos a agregar la librería y a escribir nuestro primer código creativo.
 
-### 2.1 La librería p5.js: `script`
+### 2.1 La librería p5.js: `<script>`
 Para usar p5.js, tenemos que decirle a nuestro navegador dónde encontrarla. Vamos a agregar un **tag** `<script>` en el `<head>` que conecte con la librería de p5.js.
 
 ```html

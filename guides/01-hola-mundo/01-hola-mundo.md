@@ -3,22 +3,22 @@
 "Hola Mundo" es el programa clásico con el que todos empezamos a aprender un nuevo lenguaje. Es una introducción súper simple para confirmar que tu entorno de desarrollo está bien configurado y que ya puedes empezar a correr código sin problemas. 
 
 ## Index
-1. [First HTML File](#1-first-html-file)
-   - [1.1 Creating your file: `index.html`](#11-creating-your-file-indexhtml)
-   - [1.2 The Root Container: `<html>`](#12-the-root-container-html)
-   - [1.3 The Brain (Header): `<head>` & `<title>`](#13-the-brain-header-head--title)
-   - [1.4 The Body and Title: `<body>` & `<h1>`](#14-the-body-and-title-body--h1)
-   - [1.5 The Result](#15-the-result)
-2. [First CSS Style](#2-first-css-style)
-   - [2.1 The Heading ID](#21-the-heading-id)
-   - [2.2 The Style Tag](#22-the-style-tag)
-   - [2.3 Helvetica Font](#23-helvetica-font)
-   - [2.4 The Result](#24-the-result)
-3. [First JS Script](#3-first-js-script)
-   - [3.1 The Script Tag](#31-the-script-tag)
-   - [3.2 Asking for your name: `prompt()`](#32-asking-for-your-name-prompt)
-   - [3.3 Displaying a greeting: `alert()`](#33-displaying-a-greeting-alert)
-   - [3.4 The Result](#34-the-result)
+1. [Primer archivo HTML](#1-primer-archivo-html)
+   - [1.1 Crea tu archivo: `index.html`](#11-crea-tu-archivo-indexhtml)
+   - [1.2 El contenedor raíz: `<html>`](#12-el-contenedor-raiz-html)
+   - [1.3 El cerebro (Header): `<head>` & `<title>`](#13-el-cerebro-header-head--title)
+   - [1.4 El cuerpo y el título: `<body>` & `<h1>`](#14-el-cuerpo-y-el-titulo-body--h1)
+   - [1.5 El resultado](#15-el-resultado)
+2. [Primer estilo CSS](#2-primer-estilo-css)
+   - [2.1 El ID del título](#21-el-id-del-titulo)
+   - [2.2 La etiqueta `<style>`](#22-la-etiqueta-style)
+   - [2.3 Tipografía Helvetica](#23-tipografia-helvetica)
+   - [2.4 El resultado](#24-el-resultado)
+3. [Primer script de JS](#3-primer-script-de-js)
+   - [3.1 La etiqueta `<script>`](#31-la-etiqueta-script)
+   - [3.2 Preguntando tu nombre: `prompt()`](#32-preguntando-tu-nombre-prompt)
+   - [3.3 Mostrando un saludo: `alert()`](#33-mostrando-un-saludo-alert)
+   - [3.4 El resultado](#34-el-resultado)
 
 ## 1. Primer archivo HTML
 Vamos a construir una página web sencilla desde cero, agregando elementos uno por uno.
@@ -26,7 +26,7 @@ Vamos a construir una página web sencilla desde cero, agregando elementos uno p
 ### 1.1 Crea tu archivo: `index.html`
 Antes de lanzarnos a escribir código, necesitamos un lugar donde ponerlo. Por convención, llamamos a nuestro archivo principal `index.html`. Es el estándar porque los servidores web siempre buscan un archivo llamado "index" en cuanto alguien entra a una página.
 
-### 1.2 El contenedor raíz: <html>
+### 1.2 El contenedor raíz: `<html>`
 Toda página HTML comienza con la etiqueta `<html>`. Esto le avisa al navegador que todo lo que esté aquí dentro es código HTML.
 
 ```html
@@ -82,7 +82,7 @@ Para darle estilo a un elemento específico, podemos ponerle un nombre único ll
 </html>
 ```
 
-### 2.2 La etiqueta <style>
+### 2.2 La etiqueta `<style>`
 Para escribir CSS, usamos la etiqueta `<style>` dentro del `<head>`. Usamos el símbolo `#` seguido del nombre del ID para crear un **selector**, que es lo que le dice al navegador exactamente a qué elemento queremos darle estilo.
 
 ```html
@@ -129,7 +129,7 @@ Tu segundo título ahora debería aparecer con una tipografía limpia y moderna 
 ## 3. Primer script de JS
 JavaScript es "el cerebro" que le da interactividad a tu página. Permite que tu sitio web piense, haga preguntas y reaccione a lo que el usuario haga.
 
-### 3.1 La etiqueta <script>
+### 3.1 La etiqueta `<script>`
 Para escribir JavaScript, usamos el **tag** `<script>`. Así como el CSS va dentro de `<style>`, JavaScript vive dentro de `<script>`. Normalmente lo ponemos justo antes de cerrar el `body` para que el resto de la página cargue primero.
 
 ```html
