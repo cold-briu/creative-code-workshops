@@ -1,25 +1,43 @@
 <html>
   <head>
     <title>P5.js First Shape</title>
+
     <style>
+      /* Page Styling:
+         Sets the base typography for the document. */
       body {
         font-family: Helvetica, sans-serif;
       }
     </style>
+
+    <!-- p5.js Library:
+         Imports the core library for creative coding. -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+
     <script>
+      // Position Variables:
+      // Defines the coordinates for the center of the shape.
       let y = 200;
 
+      // Setup Environment:
+      // Initializes the canvas once at the start.
       function setup() {
         createCanvas(400, 400);
       }
 
+      // Drawing Loop:
+      // Redraws the scene continuously for animation.
       function draw() {
         background(220);
         
+        // Input Sync:
+        // Updates the position based on the vertical (mouseY) 
+        // cursor position.
         y = mouseY;
 
-        // Keeping the boundaries from Section 3
+        // Vertical Constraints:
+        // Ensures the shape stays within the top (0)
+        // and bottom (400) boundaries of the canvas.
         if (y < 0) {
           y = 0;
         }
@@ -28,11 +46,15 @@
           y = 400;
         }
 
+        // Shape Rendering:
+        // Displays a circle with the calculated position and scale.
         circle(200, y, 100);
       }
     </script>
   </head>
   <body>
+    <!-- Sketch Title:
+         Adds a visible heading to the webpage. -->
     <h1>My Creative Sketch</h1>
   </body>
 </html>

@@ -3,6 +3,9 @@
 <head>
   <title>My First Web Page</title>
   <style>
+    /* Heading Styling:
+       Applies the Helvetica font family to 
+       the element with the 'styled-title' ID. */
     #styled-title {
       font-family: Helvetica;
     }
@@ -10,10 +13,19 @@
 </head>
 
 <body>
+  <!-- Page Content:
+       Displays primary and secondary level-1 headings. -->
   <h1>Hello World</h1>
   <h1 id="styled-title">CSS Hello World</h1>
   <script>
+    // User Input:
+    // Opens a dialog box to capture text from the user 
+    // and stores it in the 'name' variable.
     let name = prompt("What is your name?");
+
+    // Program Output:
+    // Displays a popup window with a greeting 
+    // message using the stored user data.
     alert("Hello " + name + "!");
   </script>
 </body>
