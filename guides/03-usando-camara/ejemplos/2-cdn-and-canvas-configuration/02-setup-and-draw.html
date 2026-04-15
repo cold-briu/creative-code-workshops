@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- The Brain:
+     Contains settings, metadata, and the title. -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js Camera</title>
+
+  <!-- Global Styles: 
+       Sets the font for the entire document. -->
+  <style>
+    body {
+      font-family: Helvetica, sans-serif;
+    }
+  </style>
+
+  <!-- P5.js Library:
+       Importing the library from the CDN source. -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<!-- The Body:
+     Contains all visible elements on the page. -->
+
+<body>
+
+  <!-- Main Title:
+       Displays the name of the project. -->
+  <h1>p5.js Camera</h1>
+
+  <!-- P5.js Sketch:
+       Defines the drawing functions for the project. -->
+  <script>
+    // Variables for Canvas Size:
+    // Defined here to be reused throughout the sketch.
+    let width = 400;
+    let height = 400;
+
+    // Setup Function: 
+    // Runs once at the start to create the drawing canvas.
+    function setup() {
+      createCanvas(width, height);
+    }
+
+    // Draw Function:
+    // Runs 60 times per second to render background and elements.
+    function draw() {
+      background(220);
+    }
+  </script>
+
+</body>
+
+</html>
