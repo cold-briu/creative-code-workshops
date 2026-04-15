@@ -1,26 +1,26 @@
-# Using the camera in p5.js
+# Usando la cámara en p5.js
 
-The `createCapture(VIDEO)` function in p5.js allows access to the device's webcam to capture real-time video. This stream can be displayed on the canvas and processed via code.
+La función `createCapture(VIDEO)` en p5.js permite acceder a la cámara del dispositivo para capturar video en tiempo real. Esta transmisión se puede mostrar en el lienzo y procesar mediante código.
 
 ## Index
-1. [HTML and CSS Basics](#1-html-and-css-basics)
-   - [1.1 Initial structure](#11-initial-structure)
-   - [1.2 The style: `<style>` & Helvetica](#12-the-style-style--helvetica)
-   - [1.3 The Result](#13-the-result)
-2. [CDN and Canvas Configuration](#2-cdn-and-canvas-configuration)
-   - [2.1 Importing the library](#21-importing-the-library)
-   - [2.2 The drawing canvas: `setup()` and `draw()`](#22-the-drawing-canvas-setup-and-draw)
-   - [2.3 The Result](#23-the-result)
-3. [Basic Camera Capture](#3-basic-camera-capture)
-   - [3.1 Starting the capture: `createCapture()`](#31-starting-the-capture-createcapture)
-   - [3.2 Showing the video: `image()`](#32-showing-the-video-image)
-   - [3.3 Hiding the original element: `hide()`](#33-hiding-the-original-element-hide)
-   - [3.4 Applying a filter: `filter()`](#34-applying-a-filter-filter)
-   - [3.5 The Result](#35-the-result)
+1. [Conceptos básicos de HTML y CSS](#1-conceptos-basicos-de-html-y-css)
+   - [1.1 Estructura inicial](#11-estructura-inicial)
+   - [1.2 El estilo: `<style>` & Helvetica](#12-el-estilo-style--helvetica)
+   - [1.3 El resultado](#13-el-resultado)
+2. [Configuración de CDN y Lienzo](#2-configuracion-de-cdn-y-lienzo)
+   - [2.1 Importando la librería](#21-importando-la-libreria)
+   - [2.2 El lienzo de dibujo: `setup()` y `draw()`](#22-el-lienzo-de-dibujo-setup-y-draw)
+   - [2.3 El resultado](#23-el-resultado)
+3. [Captura básica de cámara](#3-captura-basica-de-camara)
+   - [3.1 Iniciando la captura: `createCapture()`](#31-iniciando-la-captura-createcapture)
+   - [3.2 Mostrando el video: `image()`](#32-mostrando-el-video-image)
+   - [3.3 Ocultando el elemento original: `hide()`](#33-ocultando-el-elemento-original-hide)
+   - [3.4 Aplicando un filtro: `filter()`](#34-aplicando-un-filtro-filter)
+   - [3.5 El resultado](#35-el-resultado)
 
-## 1. HTML and CSS Basics
-### 1.1 Initial structure
-Every HTML document requires a standard scaffold to work correctly in the browser. Using the `html:5` abbreviation in Antigravity generates this structure automatically, providing the necessary tags for the document type, language, metadata, and the main sections: `<head>` and `<body>`.
+## 1. Conceptos básicos de HTML y CSS
+### 1.1 Estructura inicial
+Cada documento HTML requiere un andamiaje estándar para funcionar correctamente en el navegador. Usar la abreviación `html:5` en Antigravity genera esta estructura automáticamente, dándote los **tags** necesarios para el tipo de documento, idioma, metadatos y las secciones principales: `<head>` y `<body>`.
 
 ```html
 <!DOCTYPE html>
@@ -35,8 +35,8 @@ Every HTML document requires a standard scaffold to work correctly in the browse
 </body>
 </html>
 ```
-### 1.2 The style: `<style>` & Helvetica
-To define the visual appearance, we use a `<style>` tag. We will set the `font-family` to Helvetica for the `<body>` and add an `<h1>` tag to display the project's title.
+### 1.2 El estilo: `<style>` & Helvetica
+Para definir la apariencia visual, usamos una etiqueta `<style>`. Vamos a configurar el `font-family` a Helvetica para el `<body>` y agregar un **tag** `<h1>` para mostrar el título del proyecto.
 
 ```html
 <!DOCTYPE html>
@@ -58,14 +58,14 @@ To define the visual appearance, we use a `<style>` tag. We will set the `font-f
 </html>
 ```
 
-### 1.3 The Result
-With these changes, the project title will be displayed with a clean Helvetica font. This provides a clear heading for our camera sketch.
+### 1.3 El resultado
+Con estos cambios, el título del proyecto se mostrará con una tipografía Helvetica limpia. Esto nos da un encabezado claro para nuestro **sketch** de cámara.
 
-![Final result shown in browser](./images/1-html-and-css-basics.png)
+![Resultado final mostrado en el navegador](./images/1-html-and-css-basics.png)
 
-## 2. CDN and Canvas Configuration
-### 2.1 Importing the library
-To use p5.js, we need to tell our browser where to find it. We are going to add a `<script>` tag in the `<head>` that connects to the p5.js library.
+## 2. Configuración de CDN y Lienzo
+### 2.1 Importando la librería
+Para usar p5.js, necesitamos decirle a nuestro navegador dónde encontrarla. Vamos a agregar un **tag** `<script>` en el `<head>` que se conecte a la librería de p5.js.
 
 
 ```html
@@ -90,8 +90,8 @@ To use p5.js, we need to tell our browser where to find it. We are going to add 
 </html>
 ```
 
-### 2.2 The drawing canvas: `setup()` and `draw()`
-To start drawing, we use the `setup()` and `draw()` functions. `setup()` runs once to create the canvas, and `draw()` runs continuously to render frames. We will define `width` and `height` variables to set the canvas size, providing a single place to modify the dimensions.
+### 2.2 El lienzo de dibujo: `setup()` y `draw()`
+Para empezar a dibujar, usamos las funciones `setup()` y `draw()`. `setup()` corre una sola vez para crear el lienzo, y `draw()` corre continuamente para renderizar los **frames**. Vamos a definir variables de `width` (ancho) y `height` (alto) para configurar el tamaño del lienzo, teniendo un solo lugar para modificar las dimensiones.
 
 ```html
 <!DOCTYPE html>
@@ -128,14 +128,14 @@ To start drawing, we use the `setup()` and `draw()` functions. `setup()` runs on
 </html>
 ```
 
-### 2.3 The Result
-With these functions, a canvas will appear on the page. The `setup()` function creates the drawing area, and `draw()` paints the background color sixty times per second.
+### 2.3 El resultado
+Con estas funciones, aparecerá un lienzo en la página. La función `setup()` crea el área de dibujo y `draw()` pinta el color de fondo 60 veces por segundo.
 
-![Final result shown in browser](./images/2-cdn-and-canvas-configuration.png)
+![Resultado final mostrado en el navegador](./images/2-cdn-and-canvas-configuration.png)
 
-## 3. Basic Camera Capture
-### 3.1 Starting the capture: `createCapture()`
-To capture video from the computer's camera, we use the `createCapture(VIDEO)` function. We store the capture in a `video` variable so we can use it in other parts of the code.
+## 3. Captura básica de cámara
+### 3.1 Iniciando la captura: `createCapture()`
+Para capturar video de la cámara de la computadora, usamos la función `createCapture(VIDEO)`. Guardamos la captura en una variable `video` para poder usarla en otras partes del código.
 
 ```html
 <!DOCTYPE html>
@@ -174,8 +174,8 @@ To capture video from the computer's camera, we use the `createCapture(VIDEO)` f
 </html>
 ```
 
-### 3.2 Showing the video: `image()`
-To display the video stream inside our canvas, we use the `image()` function. This function treats the video capture as a drawing element, allowing us to specify its position and size. At this stage, the video will appear twice: once as an HTML element outside the canvas (created by `createCapture`) and once inside the canvas.
+### 3.2 Mostrando el video: `image()`
+Para mostrar la transmisión de video dentro de nuestro lienzo, usamos la función `image()`. Esta función trata la captura de video como un elemento de dibujo, permitiéndonos especificar su posición y tamaño. En esta etapa, el video aparecerá dos veces: una como elemento HTML fuera del lienzo (creado por `createCapture`) y otra dentro del lienzo.
 
 ```html
 <!DOCTYPE html>
@@ -215,8 +215,8 @@ To display the video stream inside our canvas, we use the `image()` function. Th
 </html>
 ```
 
-### 3.3 Hiding the original element: `hide()`
-By default, `createCapture()` adds a video element to the page, which means we see the camera stream twice. To keep only the version inside the canvas, we use the `.hide()` method on the video variable. We also use `.size()` to ensure the capture resolution matches our canvas dimensions.
+### 3.3 Ocultando el elemento original: `hide()`
+Por defecto, `createCapture()` añade un elemento de video a la página, lo que significa que el video se ve dos veces. Para quedarnos solo con la versión dentro del lienzo, usamos el método `.hide()` en la variable del video. También usamos `.size()` para asegurar que la resolución de la captura coincida con las dimensiones de nuestro lienzo.
 
 ```html
 <!DOCTYPE html>
@@ -258,8 +258,8 @@ By default, `createCapture()` adds a video element to the page, which means we s
 </html>
 ```
 
-### 3.4 Applying a filter: `filter()`
-Once we have the video stream on the canvas, we can apply different filters to modify its appearance. The `filter(POSTERIZE)` function reduces the number of colors in the image, giving it a stylized, graphic look. The number we pass to it determines how many levels of color to use.
+### 3.4 Aplicando un filtro: `filter()`
+Una vez que tenemos la transmisión de video en el lienzo, podemos aplicar diferentes filtros para modificar su apariencia. La función `filter(POSTERIZE)` reduce la cantidad de colores en la imagen, dándole un look gráfico y estilizado. El número que le pasamos determina cuántos niveles de color usar.
 
 ```html
 <!DOCTYPE html>
@@ -302,7 +302,7 @@ Once we have the video stream on the canvas, we can apply different filters to m
 </html>
 ```
 
-### 3.5 The Result
-Now the camera stream is visible inside our drawing area with a posterize effect applied. This allows us to use the canvas as the primary workspace for any creative coding filters or effects we want to apply to the video.
+### 3.5 El resultado
+Ahora la transmisión de la cámara es visible dentro de nuestra área de dibujo con un efecto de **posterizado** aplicado. Esto nos permite usar el lienzo como el espacio de trabajo principal para cualquier filtro o efecto de **creative coding** que queramos aplicar al video.
 
-![Final result shown in browser](./images/3-basic-camera-capture.png)
+![Resultado final mostrado en el navegador](./images/3-basic-camera-capture.png)
