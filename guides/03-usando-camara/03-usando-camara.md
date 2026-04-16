@@ -3,20 +3,21 @@
 La función `createCapture(VIDEO)` en p5.js permite acceder a la cámara del dispositivo para capturar video en tiempo real. Esta transmisión se puede mostrar en el lienzo y procesar mediante código.
 
 ## Index
-1. [Conceptos básicos de HTML y CSS](#1-conceptos-basicos-de-html-y-css)
+1. [Conceptos básicos de HTML y CSS](#1-conceptos-básicos-de-html-y-css)
    - [1.1 Estructura inicial](#11-estructura-inicial)
    - [1.2 El estilo: `<style>` & Helvetica](#12-el-estilo-style--helvetica)
    - [1.3 El resultado](#13-el-resultado)
-2. [Configuración de CDN y Lienzo](#2-configuracion-de-cdn-y-lienzo)
-   - [2.1 Importando la librería](#21-importando-la-libreria)
+2. [Configuración de CDN y Lienzo](#2-configuración-de-cdn-y-lienzo)
+   - [2.1 Importando la librería](#21-importando-la-librería)
    - [2.2 El lienzo de dibujo: `setup()` y `draw()`](#22-el-lienzo-de-dibujo-setup-y-draw)
    - [2.3 El resultado](#23-el-resultado)
-3. [Captura básica de cámara](#3-captura-basica-de-camara)
+3. [Captura básica de cámara](#3-captura-básica-de-cámara)
    - [3.1 Iniciando la captura: `createCapture()`](#31-iniciando-la-captura-createcapture)
    - [3.2 Mostrando el video: `image()`](#32-mostrando-el-video-image)
    - [3.3 Ocultando el elemento original: `hide()`](#33-ocultando-el-elemento-original-hide)
    - [3.4 Aplicando un filtro: `filter()`](#34-aplicando-un-filtro-filter)
-   - [3.5 El resultado](#35-el-resultado)
+   - [3.5 Usando `video.get()` para dibujar píxeles](#35-usando-videoget-para-dibujar-píxeles)
+   - [3.6 El resultado](#36-el-resultado)
 
 ## 1. Conceptos básicos de HTML y CSS
 ### 1.1 Estructura inicial
@@ -302,7 +303,66 @@ Una vez que tenemos la transmisión de video en el lienzo, podemos aplicar difer
 </html>
 ```
 
-### 3.5 El resultado
-Ahora la transmisión de la cámara es visible dentro de nuestra área de dibujo con un efecto de **posterizado** aplicado. Esto nos permite usar el lienzo como el espacio de trabajo principal para cualquier filtro o efecto de **creative coding** que queramos aplicar al video.
+### 3.5 Usando `video.get()` para dibujar píxeles
+La función `video.get()` nos permite leer la información de color de un píxel o región específica del video. Al combinar esto con bucles `for` anidados, podemos muestrear el video a intervalos regulares y usar esa información para dibujar formas personalizadas, creando un efecto de pixeleado o "mosaico".
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js Camera</title>
+
+  <style>
+    body {
+      font-family: Helvetica, sans-serif;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+<body>
+  <h1>p5.js Camera</h1>
+
+  <script>
+    let width = 400;
+    let height = 400;
+    let video;
+    let pixelSize = 20;
+
+    function setup() {
+      createCanvas(width, height);
+      video = createCapture(VIDEO);
+      video.size(width, height);
+      video.hide();
+    }
+
+    function draw() {
+      background(220);
+
+      for (let horizontalPosition = 0; horizontalPosition < width; horizontalPosition += pixelSize) {
+        for (let verticalPosition = 0; verticalPosition < height; verticalPosition += pixelSize) {
+          
+          let sampleColor = video.get(horizontalPosition, verticalPosition);
+          let brightnessValue = brightness(sampleColor);
+          
+          let color = map(brightnessValue, 0, 100, 0, 255);
+          
+          fill(color);
+          noStroke();
+          
+          square(horizontalPosition, verticalPosition, pixelSize);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+```
+
+### 3.6 El resultado
+Al procesar la información del video segundo por segundo, hemos transformado la captura de cámara en una cuadrícula de cuadrados que reaccionan a la luz. Este es el primer paso para crear filtros personalizados y arte generativo basado en video.
 
 ![Resultado final mostrado en el navegador](./images/3-basic-camera-capture.png)
+

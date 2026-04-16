@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js Camera - Drawing Pixels</title>
+
+  <style>
+    body {
+      font-family: Helvetica, sans-serif;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+<body>
+  <h1>p5.js Camera</h1>
+
+  <script>
+    // Variable Setup:
+    // Defines the capture dimensions, the video object, 
+    // and the size of our drawing grid.
+    let width = 400;
+    let height = 400;
+    let video;
+    let pixelSize = 20;
+
+    function setup() {
+      // Canvas and Capture Initialization:
+      // Creates the drawing surface, starts the camera capture, 
+      // and hides the default video element.
+      createCanvas(width, height);
+      video = createCapture(VIDEO);
+      video.size(width, height);
+      video.hide();
+    }
+
+    function draw() {
+      background(220);
+
+      // Pixel Sampling Loop:
+      // Iterates through the canvas grid using nested loops, 
+      // jumping by "pixelSize" in each step.
+      for (let horizontalPosition = 0; horizontalPosition < width; horizontalPosition += pixelSize) {
+        for (let verticalPosition = 0; verticalPosition < height; verticalPosition += pixelSize) {
+          
+          // Color Processing:
+          // Samples the color from the video capture and 
+          // calculates its brightness value.
+          let sampledColor = video.get(horizontalPosition, verticalPosition);
+          let brightnessValue = brightness(sampledColor);
+          
+          // Grayscale Mapping:
+          // Converts the brightness scale (0-100) to a 
+          // grayscale range (0-255).
+          let color = map(brightnessValue, 0, 100, 0, 255);
+          
+          fill(color);
+          noStroke();
+          
+          // Graphic Rendering:
+          // Draws a square at the sampled coordinates 
+          // using the calculated color.
+          square(horizontalPosition, verticalPosition, pixelSize);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
