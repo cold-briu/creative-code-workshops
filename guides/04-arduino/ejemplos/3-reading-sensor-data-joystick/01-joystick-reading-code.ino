@@ -3,7 +3,7 @@
 // and the button to a digital pin.
 const int xAxisPin = A0;
 const int yAxisPin = A1;
-const int buttonPin = 2;
+const int buttonPin = A2;
 
 // Hardware Initialization:
 // Starts the serial communication and 

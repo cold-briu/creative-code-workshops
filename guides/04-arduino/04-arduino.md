@@ -1,61 +1,63 @@
-# Arduino & p5.js: Physical Computing
+# Arduino & p5.js: Computación Física
 
-This guide covers how to set up an Arduino, read sensor data from a joystick, and send it to p5.js for visualization.
+Esta guía explica cómo configurar un Arduino, leer datos de un joystick y enviarlos a p5.js para su visualización.
 
 ## Index
-- [1. Setting up Arduino IDE](#1-setting-up-arduino-ide)
-  - [1.1 Installation and Interface](#11-installation-and-interface)
-  - [1.2 Selecting Board and Port](#12-selecting-board-and-port)
-  - [1.3 The Result](#13-the-result)
-- [2. Testing the Blink Sketch](#2-testing-the-blink-sketch)
-  - [2.1 The "Hello World" of Hardware](#21-the-hello-world-of-hardware)
-  - [2.2 The Result](#22-the-result)
-- [3. Reading Joystick Signals](#3-reading-joystick-signals)
-  - [3.1 Hardware Connections](#31-hardware-connections)
-  - [3.2 Joystick reading code](#32-joystick-reading-code)
-  - [3.3 The Result](#33-the-result)
-- [4. Setting up p5.SerialControl](#4-setting-up-p5serialcontrol)
-  - [4.1 Download](#41-download)
-  - [4.2 Install](#42-install)
-  - [4.3 Connecting](#43-connecting)
-  - [4.4 The Result](#44-the-result)
-- [5. p5.js Serial Data Logger](#5-p5js-serial-data-logger)
-  - [5.1 Connection Setup](#51-connection-setup)
-  - [5.2 Basic Sketch](#52-basic-sketch)
-  - [5.3 Console log data](#53-console-log-data)
-  - [5.4 The Result](#54-the-result)
-- [6. Visualizing Sensor Data](#6-visualizing-sensor-data)
-  - [6.1 Setting up the Canvas](#61-setting-up-the-canvas)
-  - [6.2 Mapping and Drawing](#62-mapping-and-drawing)
-  - [6.3 The Result](#63-the-result)
+- [1. Configuración de Driver e IDE](#1-configuración-de-driver-e-ide)
+  - [1.1 Instalación del Driver CH340](#11-instalación-del-driver-ch340)
+  - [1.2 Instalación del IDE de Arduino](#12-instalación-del-ide-de-arduino)
+  - [1.3 Seleccionando Placa y Puerto](#13-seleccionando-placa-y-puerto)
+  - [1.4 El Resultado](#14-el-resultado)
+- [2. Probando la Conexión (Blink)](#2-probando-la-conexión-blink)
+  - [2.1 Hola Hardware](#21-hola-hardware)
+  - [2.2 El Resultado](#22-el-resultado)
+- [3. Lectura de Datos del Sensor (Joystick)](#3-lectura-de-datos-del-sensor-joystick)
+  - [3.1 Código de Lectura del Joystick](#31-código-de-lectura-del-joystick)
+  - [3.2 El Resultado](#32-el-resultado)
+- [4. Puente p5.SerialControl](#4-puente-p5serialcontrol)
+  - [4.1 Descarga e Instalación](#41-descarga-e-instalación)
+  - [4.2 Conectando al Arduino](#42-conectando-al-arduino)
+  - [4.3 El Resultado](#43-el-resultado)
+- [5. Registrador de Datos en p5.js](#5-registrador-de-datos-en-p5js)
+  - [5.1 Configuración y Librerías](#51-configuración-y-librerías)
+  - [5.2 Sketch Básico](#52-sketch-básico)
+  - [5.3 Consola de Datos](#53-consola-de-datos)
+  - [5.4 El Resultado](#54-el-resultado)
+- [6. Mapeo y Visualización de Datos](#6-mapeo-y-visualización-de-datos)
+  - [6.1 Configurando el Lienzo](#61-configurando-el-lienzo)
+  - [6.2 Mapeo y Dibujo](#62-mapeo-y-dibujo)
+  - [6.3 El Resultado](#63-el-resultado)
 
-## 1. Setting up Arduino IDE
+## 1. Configuración de Driver e IDE
 
-### 1.1 Installation and Interface
-The Arduino Integrated Development Environment (IDE) is where we write code (**sketches**). Download it from the [official Arduino website](https://www.arduino.cc/en/software).
+### 1.1 Instalación del Driver CH340
+La mayoría de los clones de Arduino Nano usan el chip CH340 para la comunicación USB. Si tu computadora no reconoce la placa, instala el driver desde el [sitio oficial de WCH](https://www.wch-ic.com/downloads/CH341SER_EXE.html).
 
-The interface includes:
-- **Verify (Checkmark):** Compiles code to check for errors.
-- **Upload (Arrow):** Sends code to the board.
+### 1.2 Instalación del IDE de Arduino
+El Arduino Integrated Development Environment (IDE) es donde escribimos nuestro código (**sketches**). Descárgalo desde el [sitio oficial de Arduino](https://www.arduino.cc/en/software).
 
-### 1.2 Selecting Board and Port
-We must configure the hardware before uploading:
-1. Connect the **Arduino Nano** via USB.
-2. Select `Tools > Board > Arduino Nano`.
-3. Select `Tools > Processor > ATmega328P (Old Bootloader)`.
-4. Select `Tools > Port` and choose the port showing "Arduino" or "CH340".
+La interfaz incluye:
+- **Verify (Checkmark):** Compila el código para buscar errores.
+- **Upload (Arrow):** Envía el código a la placa.
 
-### 1.3 The Result
-The Arduino IDE is now configured and ready to communicate with your board.
+### 1.3 Seleccionando Placa y Puerto
+Debemos configurar el hardware antes de subir cualquier código:
+1. Conecta el **Arduino Nano** vía USB.
+2. Selecciona `Tools > Board > Arduino Nano`.
+3. Selecciona `Tools > Processor > ATmega328P (Old Bootloader)`.
+4. Selecciona `Tools > Port` y elige el puerto que diga "Arduino" o "CH340".
 
-![Arduino IDE configured for Nano](./images/1-setting-up-arduino-ide.png)
+### 1.4 El Resultado
+El IDE de Arduino ahora está configurado y listo para comunicarse con tu placa.
 
-## 2. Testing the Blink Sketch
+![IDE de Arduino configurado para Nano](./images/1-driver-ide-setup.png)
 
-### 2.1 The "Hello World" of Hardware
-We will run the **Blink** example to test the connection. This turns the built-in LED on and off.
+## 2. Probando la Conexión (Blink)
 
-Go to `File > Examples > 01.Basics > Blink`.
+### 2.1 Hola Hardware
+Ejecutaremos el ejemplo **Blink** para probar la conexión. Esto enciende y apaga el LED integrado en la placa.
+
+Ve a `File > Examples > 01.Basics > Blink`.
 
 ```cpp
 void setup() {
@@ -70,30 +72,22 @@ void loop() {
 }
 ```
 
-Click **Upload**.
+Haz clic en **Upload**.
 
-### 2.2 The Result
-If successful, the orange LED on the board should blink every second.
+### 2.2 El Resultado
+Si todo sale bien, el LED naranja de la placa debería parpadear cada segundo.
 
-![Arduino board with blinking LED](./images/2-testing-the-blink-sketch.png)
+![Placa Arduino con LED parpadeando](./images/2-testing-connection-blink.png)
 
-## 3. Reading Joystick Signals
+## 3. Lectura de Datos del Sensor (Joystick)
 
-### 3.1 Hardware Connections
-Connect the joystick to the Arduino:
-- **GND** to **GND**
-- **VCC** to **5V**
-- **VRx** to **A0**
-- **VRy** to **A1**
-- **SW** to **Pin 2**
-
-### 3.2 Joystick reading code
-This sketch reads analog axis and digital button values and sends them to the serial port.
+### 3.1 Código de Lectura del Joystick
+Este sketch lee los valores de los ejes análogos y del botón digital del joystick, y los envía al puerto serial.
 
 ```cpp
 const int xAxisPin = A0;
 const int yAxisPin = A1;
-const int buttonPin = 2;
+const int buttonPin = A2;
 
 void setup() {
   Serial.begin(9600);
@@ -115,43 +109,40 @@ void loop() {
 }
 ```
 
-### 3.3 The Result
-Open `Tools > Serial Monitor` to see the incoming data stream.
+### 3.2 El Resultado
+Abre el `Tools > Serial Monitor` para ver el flujo de datos entrantes.
 
-![Serial Monitor showing joystick values](./images/3-reading-joystick-signals.png)
+![Serial Monitor mostrando valores del joystick](./images/3-reading-sensor-data-joystick.png)
 
 > [!IMPORTANT]
-> **Close the Serial Monitor** before moving to the next section. Only one application can access the Serial port at a time.
+> **Cierra el Serial Monitor** antes de pasar a la siguiente sección. Solo una aplicación puede acceder al puerto Serial al mismo tiempo.
 
-## 4. Setting up p5.SerialControl
+## 4. Puente p5.SerialControl
 
-### 4.1 Download
-Download **p5.serialcontrol** from the [official releases](https://github.com/p5-serial/p5.serialcontrol/releases). This app bridges Serial data to the browser.
+### 4.1 Descarga e Instalación
+Descarga **p5.serialcontrol** desde los [lanzamientos oficiales](https://github.com/p5-serial/p5.serialcontrol/releases). Esta aplicación actúa como un puente para llevar los datos Serial al navegador.
 
-### 4.2 Install
-Install the application and open it.
+### 4.2 Conectando al Arduino
+1. Abre la aplicación **p5.serialcontrol**.
+2. Localiza el puerto de tu Arduino.
+3. Haz clic en **Open**.
 
-### 4.3 Connecting
-1. Open the **p5.serialcontrol** app.
-2. Locate your Arduino port.
-3. Click **Open**.
+### 4.3 El Resultado
+La aplicación ahora está recibiendo datos de Arduino y compartiéndolos a través de WebSockets.
 
-### 4.4 The Result
-The application is now receiving data from the Arduino and sharing it via WebSockets.
+![App p5.SerialControl conectada](./images/4-p5serialcontrol-bridge.png)
 
-![p5.SerialControl app connected](./images/4-setting-up-p5serialcontrol.png)
+## 5. Registrador de Datos en p5.js
 
-## 5. p5.js Serial Data Logger
-
-### 5.1 Connection Setup
-To use p5.js, we need to tell our browser where to find it. We are going to add a  `<script>` tag in the `<head>` that connects to the p5.js library and the serial library.
+### 5.1 Configuración y Librerías
+Para usar p5.js, necesitamos decirle a nuestro navegador dónde encontrarlo. Vamos a añadir una etiqueta `<script>` en el `<head>` que conecte con la librería p5.js y la librería serial.
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
-  <script src="https://unpkg.com/p5.serialserver@0.0.28/lib/p5.serialport.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.serialport@0.0.31/lib/p5.serialport.min.js"></script>
 </head>
 <body>
   <script src="sketch.js"></script>
@@ -159,12 +150,12 @@ To use p5.js, we need to tell our browser where to find it. We are going to add 
 </html>
 ```
 
-### 5.2 Basic Sketch
-In `sketch.js`, initialize the connection by specifying your port.
+### 5.2 Sketch Básico
+En `sketch.js`, inicializa la conexión especificando tu puerto.
 
 ```javascript
 let serial;
-let portName = 'COM7'; // Replace with your port
+let portName = 'COM7'; // Reemplaza con tu puerto
 
 function setup() {
   noCanvas();
@@ -173,8 +164,8 @@ function setup() {
 }
 ```
 
-### 5.3 Console log data
-We will poll the serial port inside the `draw()` loop to verify the connection.
+### 5.3 Consola de Datos
+Consultaremos el puerto serial dentro del bucle `draw()` para verificar la conexión.
 
 ```javascript
 function draw() {
@@ -186,15 +177,15 @@ function draw() {
 }
 ```
 
-### 5.4 The Result
-Open the browser console to see the data stream from the joystick.
+### 5.4 El Resultado
+Abre la consola del navegador para ver el flujo de datos proveniente del joystick.
 
-![Browser console showing serial data](./images/5-p5js-serial-data-logger.png)
+![Consola del navegador mostrando datos seriales](./images/5-p5js-data-logger.png)
 
-## 6. Visualizing Sensor Data
+## 6. Mapeo y Visualización de Datos
 
-### 6.1 Setting up the Canvas
-Create a drawing area using variables for dimensions.
+### 6.1 Configurando el Lienzo
+Crea un área de dibujo usando variables para las dimensiones.
 
 ```javascript
 let width = 800;
@@ -207,8 +198,8 @@ function setup() {
 }
 ```
 
-### 6.2 Mapping and Drawing
-Split the serial string and map the values (0-1023) to the canvas size.
+### 6.2 Mapeo y Dibujo
+Divide la cadena serial y mapea los valores (0-1023) al tamaño del lienzo.
 
 ```javascript
 let x = 400, y = 300;
@@ -238,7 +229,7 @@ function draw() {
 }
 ```
 
-### 6.3 The Result
-The joystick controls the position and color of a circle on the canvas.
+### 6.3 El Resultado
+El joystick ahora controla la posición y el color de un círculo en el lienzo.
 
-![Visualizing sensor data result](./images/6-visualizing-sensor-data.png)
+![Resultado de visualización de datos del sensor](./images/6-data-mapping-visualization.png)
