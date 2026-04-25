@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
+  <script src="https://unpkg.com/p5.serialserver@0.0.28/lib/p5.serialport.js"></script>
+</head>
+<body>
+  <script>
+    // Connection variables:
+    // Defines the canvas dimensions and 
+    // variables for Serial communication.
+    let width = 800;
+    let height = 600;
+    let serial;
+    let portName = 'COM7'; // Replace with your port
+
+    // Initialization:
+    // Creates the drawing surface and 
+    // opens the serial communication.
+    function setup() {
+      createCanvas(width, height);
+      serial = new p5.SerialPort();
+      serial.openPort(portName);
+    }
+  </script>
+</body>
+</html>

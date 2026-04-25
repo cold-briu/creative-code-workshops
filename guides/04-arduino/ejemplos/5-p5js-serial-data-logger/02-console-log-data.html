@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
+  <script src="https://unpkg.com/p5.serialserver@0.0.28/lib/p5.serialport.js"></script>
+</head>
+<body>
+  <script>
+    // Connection variables:
+    // Configures the variables required 
+    // for Serial communication.
+    let serial;
+    let portName = 'COM7'; // Replace with your port
+
+    // Initialization:
+    // Opens the serial port communication 
+    // without creating a visible canvas.
+    function setup() {
+      noCanvas();
+      serial = new p5.SerialPort();
+      serial.openPort(portName);
+    }
+
+    function draw() {
+      // Data Acquisition:
+      // Reads incoming serial data and prints 
+      // it directly to the browser console.
+      let data = serial.readLine();
+      
+      if (data.length > 0) {
+        console.log("Received: " + data);
+      }
+    }
+  </script>
+</body>
+</html>
