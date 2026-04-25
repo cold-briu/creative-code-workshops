@@ -1,4 +1,4 @@
-# Arduino & p5.js: Computación Física
+# Arduino & p5.js: Mi primer joystick
 
 Esta guía explica cómo configurar un Arduino, leer datos de un joystick y enviarlos a p5.js para su visualización.
 
