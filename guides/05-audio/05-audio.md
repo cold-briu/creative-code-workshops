@@ -17,6 +17,7 @@ p5.js provides powerful tools to capture and analyze sound. In this guide, we wi
   - [3.4 Reading the Volume](#34-reading-the-volume)
   - [3.5 Drawing the Sound](#35-drawing-the-sound)
   - [3.6 The Result](#36-the-result)
+- [4. Vibe Coding with Antigravity](#4-vibe-coding-with-antigravity)
 
 ## 1. HTML Structure
 
@@ -401,3 +402,15 @@ Finally, we use the calculated `size` variable to draw a dynamic shape. We set a
 When you run this code and allow the browser to access your microphone, you will see a magenta circle that grows and shrinks in real-time as you speak or make noise into the microphone.
 
 ![Final result shown in browser](./images/3-working-with-audio.gif)
+
+## 4. Vibe Coding with Antigravity
+
+To take your audio visualizations to the next level, you can use **Google Antigravity** to "vibe code" a custom sketch!
+
+First, download an MP3 file from the [100 Free Royalty Background Music Tracks](https://archive.org/details/100_free_royalty_background_music_tracks) collection on the Internet Archive. Once you have downloaded an MP3 file you like, drop it directly into the same directory as your sketch.
+
+Then, use Google Antigravity to write the code for you! You can prompt it to create an audio visualization that reacts to your new MP3 file, describing the colors, shapes, and overall visual aesthetic you want to achieve.
+
+### 4.1 The Result
+
+![Final result shown in browser](./images/4-vibe-coding-with-antigravity.gif)
