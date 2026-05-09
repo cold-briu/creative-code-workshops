@@ -1,31 +1,31 @@
-# Audio in p5.js
+# Audio en p5.js
 
-p5.js provides powerful tools to capture and analyze sound. In this guide, we will learn how to access the microphone, read volume levels, and use those values to create audio-reactive visuals directly in the browser.
+p5.js proporciona herramientas para capturar y analizar sonido. En esta guía aprenderemos cómo acceder al micrófono, leer niveles de volumen y usar esos valores para crear visuales reactivos al audio directamente en el navegador.
 
-- [1. HTML Structure](#1-html-structure)
-  - [1.1 HTML 5 Setup](#11-html-5-setup)
-  - [1.2 Basic Style and Typography](#12-basic-style-and-typography)
-  - [1.3 The Result](#13-the-result)
-- [2. p5.js Setup](#2-p5js-setup)
-  - [2.1 Importing the Libraries](#21-importing-the-libraries)
-  - [2.2 Empty Canvas Setup](#22-empty-canvas-setup)
-  - [2.3 The Result](#23-the-result)
-- [3. Working with Audio](#3-working-with-audio)
-  - [3.1 Audio Variables](#31-audio-variables)
-  - [3.2 Connecting the Microphone](#32-connecting-the-microphone)
-  - [3.3 The FFT Analyzer](#33-the-fft-analyzer)
-  - [3.4 Reading the Volume](#34-reading-the-volume)
-  - [3.5 Drawing the Sound](#35-drawing-the-sound)
-  - [3.6 The Result](#36-the-result)
-- [4. Vibe Coding with Antigravity](#4-vibe-coding-with-antigravity)
+- [1. Estructura HTML](#1-estructura-html)
+  - [1.1 Configuración HTML 5](#11-configuración-html-5)
+  - [1.2 Estilo básico y tipografía](#12-estilo-básico-y-tipografía)
+  - [1.3 El resultado](#13-el-resultado)
+- [2. Configuración de p5.js](#2-configuración-de-p5js)
+  - [2.1 Importando las librerías](#21-importando-las-librerías)
+  - [2.2 Configuración del Canvas vacío](#22-configuración-del-canvas-vacío)
+  - [2.3 El resultado](#23-el-resultado)
+- [3. Trabajando con Audio](#3-trabajando-con-audio)
+  - [3.1 Variables de audio](#31-variables-de-audio)
+  - [3.2 Conectando el micrófono](#32-conectando-el-micrófono)
+  - [3.3 El analizador FFT](#33-el-analizador-fft)
+  - [3.4 Leyendo el volumen](#34-leyendo-el-volumen)
+  - [3.5 Dibujando el sonido](#35-dibujando-el-sonido)
+  - [3.6 El resultado](#36-el-resultado)
+- [4. Vibe Coding con Antigravity](#4-vibe-coding-con-antigravity)
 
-## 1. HTML Structure
+## 1. Estructura HTML
 
-Before we start working with audio, we need to set up the basic structure of our webpage. We will create a simple HTML container for our p5.js sketch.
+Antes de empezar a trabajar con audio, necesitamos configurar la estructura básica de nuestra página web. Vamos a crear un contenedor HTML sencillo para nuestro sketch de p5.js.
 
-### 1.1 HTML 5 Setup
+### 1.1 Configuración HTML 5
 
-Every HTML document requires standard scaffolding to work correctly in the browser. Using the `html:5` snippet generates this structure automatically, giving you the necessary tags for the document type, language, metadata, and the main sections: `<head>` and `<body>`. We will also add an `<h1>` heading inside the body.
+Todo documento HTML requiere un andamiaje estándar para funcionar correctamente en el navegador. El snippet `html:5` genera esta estructura automáticamente, dándote los tags necesarios para el tipo de documento, idioma, metadatos y las secciones principales: `<head>` y `<body>`. También agregaremos un encabezado `<h1>` dentro del body.
 
 ```html
 <!DOCTYPE html>
@@ -41,9 +41,9 @@ Every HTML document requires standard scaffolding to work correctly in the brows
 </html>
 ```
 
-### 1.2 Basic Style and Typography
+### 1.2 Estilo básico y tipografía
 
-To make our page look clean, we will add CSS rules inside the `<style>` tag within the `<head>`. We will use the Helvetica font for our text to maintain a simple, readable design.
+Para que nuestra página se vea limpia, agregaremos reglas CSS dentro del tag `<style>` en el `<head>`. Usaremos la fuente Helvetica para mantener un diseño simple y legible.
 
 ```html
 <!DOCTYPE html>
@@ -65,17 +65,17 @@ To make our page look clean, we will add CSS rules inside the `<style>` tag with
 </html>
 ```
 
-### 1.3 The Result
+### 1.3 El resultado
 
-When you open this file in your browser, you will see a clean webpage displaying the title "Audio in p5.js" using the Helvetica font. This HTML structure provides the foundation for our project.
+Cuando abras este archivo en el navegador, verás una página limpia mostrando el título "Audio in p5.js" con la fuente Helvetica. Esta estructura HTML es la base de nuestro proyecto.
 
-![Final result shown in browser](./images/1-html-structure.png)
+![Resultado final mostrado en el navegador](./images/1-html-structure.png)
 
-## 2. p5.js Setup
+## 2. Configuración de p5.js
 
-### 2.1 Importing the Libraries
+### 2.1 Importando las librerías
 
-To use p5.js and its audio capabilities, we need to tell our browser where to find them. We are going to add two `<script>` tags in the `<head>` that connect to the core p5.js library and the p5.sound add-on.
+Para usar p5.js y sus capacidades de audio, necesitamos decirle a nuestro navegador dónde encontrarlas. Vamos a agregar dos tags `<script>` en el `<head>` que conectan con la librería principal de p5.js y el add-on p5.sound.
 
 ```html
 <!DOCTYPE html>
@@ -100,9 +100,9 @@ To use p5.js and its audio capabilities, we need to tell our browser where to fi
 </html>
 ```
 
-### 2.2 Empty Canvas Setup
+### 2.2 Configuración del Canvas vacío
 
-To start drawing, we use the `setup()` and `draw()` functions. `setup()` runs once to create the canvas, and `draw()` runs continuously to render frames. We will define variables for `width` and `height` to configure the canvas dimensions, ensuring we have a single place to modify them.
+Para empezar a dibujar, usamos las funciones `setup()` y `draw()`. `setup()` se ejecuta una sola vez para crear el canvas, y `draw()` se ejecuta continuamente para renderizar los frames. Definiremos variables para `width` y `height` para configurar las dimensiones del canvas, de modo que tengamos un solo lugar donde modificarlas.
 
 ```html
 <!DOCTYPE html>
@@ -140,17 +140,17 @@ To start drawing, we use the `setup()` and `draw()` functions. `setup()` runs on
 </html>
 ```
 
-### 2.3 The Result
+### 2.3 El resultado
 
-With these functions, a canvas will appear on the page. The `setup()` function creates the drawing area, and `draw()` paints the background color 60 times per second.
+Con estas funciones, aparecerá un canvas en la página. La función `setup()` crea el área de dibujo, y `draw()` pinta el color de fondo 60 veces por segundo.
 
-![Final result shown in browser](./images/2-p5js-setup.png)
+![Resultado final mostrado en el navegador](./images/2-p5js-setup.png)
 
-## 3. Working with Audio
+## 3. Trabajando con Audio
 
-### 3.1 Audio Variables
+### 3.1 Variables de audio
 
-To work with audio, we first need to declare variables to store the microphone and the audio analyzer. We will declare `mic` and `fft` globally so they can be accessed throughout the code.
+Para trabajar con audio, primero necesitamos declarar variables que almacenen el micrófono y el analizador de audio. Declararemos `mic` y `fft` de forma global para que puedan ser accedidas en todo el código.
 
 ```html
 <!DOCTYPE html>
@@ -191,9 +191,9 @@ To work with audio, we first need to declare variables to store the microphone a
 </html>
 ```
 
-### 3.2 Connecting the Microphone
+### 3.2 Conectando el micrófono
 
-Inside the `setup()` function, we initialize the microphone object using `new p5.AudioIn()` and tell it to begin capturing audio with `mic.start()`.
+Dentro de la función `setup()`, inicializamos el objeto micrófono usando `new p5.AudioIn()` y le indicamos que comience a capturar audio con `mic.start()`.
 
 ```html
 <!DOCTYPE html>
@@ -237,9 +237,9 @@ Inside the `setup()` function, we initialize the microphone object using `new p5
 </html>
 ```
 
-### 3.3 The FFT Analyzer
+### 3.3 El analizador FFT
 
-To process the sound, we need an analyzer. We initialize a new Fast Fourier Transform (FFT) object and tell it to use our microphone as its input. This is done inside the `setup()` function.
+Para procesar el sonido, necesitamos un analizador. Inicializamos un nuevo objeto Fast Fourier Transform (FFT) y le indicamos que use nuestro micrófono como entrada. Esto se hace dentro de la función `setup()`.
 
 ```html
 <!DOCTYPE html>
@@ -286,9 +286,9 @@ To process the sound, we need an analyzer. We initialize a new Fast Fourier Tran
 </html>
 ```
 
-### 3.4 Reading the Volume
+### 3.4 Leyendo el volumen
 
-Inside the `draw()` function, we can now read the audio data. We tell the FFT analyzer to process the current audio frame. Then, we get the current volume level from the microphone and map that value to a size range for our visual shape.
+Dentro de la función `draw()`, ya podemos leer los datos de audio. Le indicamos al analizador FFT que procese el frame de audio actual. Luego, obtenemos el nivel de volumen actual del micrófono y mapeamos ese valor a un rango de tamaño para nuestra forma visual.
 
 ```html
 <!DOCTYPE html>
@@ -340,9 +340,9 @@ Inside the `draw()` function, we can now read the audio data. We tell the FFT an
 </html>
 ```
 
-### 3.5 Drawing the Sound
+### 3.5 Dibujando el sonido
 
-Finally, we use the calculated `size` variable to draw a dynamic shape. We set a vibrant magenta color and draw an ellipse in the center of the canvas that scales based on the volume.
+Finalmente, usamos la variable `size` calculada para dibujar una forma dinámica. Establecemos un color magenta vibrante y dibujamos una elipse en el centro del canvas que escala según el volumen.
 
 ```html
 <!DOCTYPE html>
@@ -397,20 +397,20 @@ Finally, we use the calculated `size` variable to draw a dynamic shape. We set a
 </html>
 ```
 
-### 3.6 The Result
+### 3.6 El resultado
 
-When you run this code and allow the browser to access your microphone, you will see a magenta circle that grows and shrinks in real-time as you speak or make noise into the microphone.
+Cuando ejecutes este código y permitas que el navegador acceda a tu micrófono, verás un círculo magenta que crece y se encoge en tiempo real mientras hablas o haces ruido frente al micrófono.
 
-![Final result shown in browser](./images/3-working-with-audio.gif)
+![Resultado final mostrado en el navegador](./images/3-working-with-audio.gif)
 
-## 4. Vibe Coding with Antigravity
+## 4. Vibe Coding con Antigravity
 
-To take your audio visualizations to the next level, you can use **Google Antigravity** to "vibe code" a custom sketch!
+Para llevar tus visualizaciones de audio al siguiente nivel, puedes usar **Google Antigravity** para "vibe codear" un sketch personalizado.
 
-First, download an MP3 file from the [100 Free Royalty Background Music Tracks](https://archive.org/details/100_free_royalty_background_music_tracks) collection on the Internet Archive. Once you have downloaded an MP3 file you like, drop it directly into the same directory as your sketch.
+Primero, descarga un archivo MP3 de la colección [100 Free Royalty Background Music Tracks](https://archive.org/details/100_free_royalty_background_music_tracks) en Internet Archive. Una vez que hayas descargado el MP3 que te guste, colócalo directamente en el mismo directorio que tu sketch.
 
-Then, use Google Antigravity to write the code for you! You can prompt it to create an audio visualization that reacts to your new MP3 file, describing the colors, shapes, and overall visual aesthetic you want to achieve.
+Luego, ¡usa Google Antigravity para que escriba el código por ti! Puedes pedirle que cree una visualización de audio que reaccione a tu nuevo archivo MP3, describiendo los colores, formas y la estética visual que quieres lograr.
 
-### 4.1 The Result
+### 4.1 El resultado
 
-![Final result shown in browser](./images/4-vibe-coding-with-antigravity.gif)
+![Resultado final mostrado en el navegador](./images/4-vibe-coding-with-antigravity.gif)
