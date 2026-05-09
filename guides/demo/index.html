@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Reactive Sketch</title>
+
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/addons/p5.sound.min.js"></script>
+</head>
+
+<body>
+    <h1>Audio in p5.js</h1>
+
+    <script>
+        let width = 400;
+        let height = 400;
+
+        let mic;
+        let fft;
+
+        function setup() {
+            createCanvas(width, height);
+
+            mic = new p5.AudioIn();
+            mic.start();
+
+            fft = new p5.FFT();
+            fft.setInput(mic);
+        }
+
+        function draw() {
+            background(220);
+
+            let spectrum = fft.analyze();
+            let volume = mic.getLevel();
+
+            let size = map(volume, 0, 1, 10, 8000);
+
+            fill(255, 0, 255);
+            ellipse(width / 2, height / 2, size);
+        }
+    </script>
+</body>
+
+</html>

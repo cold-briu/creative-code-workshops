@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Reactive Sketch</title>
+
+  <!-- Typography and Style: -->
+  <!-- Configures the font family for the page -->
+  <style>
+    body {
+      font-family: Helvetica, sans-serif;
+    }
+  </style>
+
+  <!-- External Library Import: -->
+  <!-- Connects the project to the p5.js core and p5.sound addon -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/addons/p5.sound.min.js"></script>
+</head>
+<body>
+  <h1>Audio in p5.js</h1>
+
+  <script>
+    // Canvas Dimensions:
+    // Defines the width and height of the drawing area.
+    let width = 400;
+    let height = 400;
+
+    // Audio Variables:
+    // Store the microphone and the Fast Fourier Transform analyzer.
+    let mic;
+    let fft;
+
+    // Setup Function:
+    // Runs once at the beginning to initialize the canvas and audio context.
+    function setup() {
+      createCanvas(width, height);
+      
+      // Microphone Initialization:
+      // Creates a new audio input object and starts listening to the microphone.
+      mic = new p5.AudioIn();
+      mic.start();
+      
+      // Audio Analyzer Initialization:
+      // Creates an FFT object to analyze frequencies and sets the mic as its input.
+      fft = new p5.FFT();
+      fft.setInput(mic);
+    }
+
+    // Draw Function:
+    // Runs continuously, processing audio data and drawing visuals.
+    function draw() {
+      background(220);
+      
+      // Audio Processing:
+      // Analyzes the sound spectrum and calculates the current volume level.
+      let spectrum = fft.analyze();
+      let volume = mic.getLevel();
+      
+      // Data Mapping:
+      // Translates the volume level (0 to 1) into a size value (10 to 1200).
+      let size = map(volume, 0, 1, 10, 1200);
+    }
+  </script>
+</body>
+</html>
