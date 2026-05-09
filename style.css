@@ -1,0 +1,42 @@
+/* Typography: stable line-height to reduce CLS. If adding webfonts, preload and use font-display: optional. */
+h1,
+h2 {
+    line-height: 1.2;
+}
+
+.hero-cta {
+    background: linear-gradient(90deg, #3124B2, #BF00FF, #3124B2, #BF00FF);
+    background-size: 300% 100%;
+    animation: cta-glow 4s ease infinite;
+    box-shadow: 0 0 20px rgba(191, 0, 255, 0.4);
+}
+
+.hero-cta:hover {
+    animation-duration: 2s;
+    box-shadow: 0 0 28px rgba(191, 0, 255, 0.6);
+}
+
+@keyframes cta-glow {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.offer-cta {
+    background: linear-gradient(90deg, #BF00FF, #FF00D4, #BF00FF, #FF00D4);
+    background-size: 300% 100%;
+    animation: cta-glow 4s ease infinite;
+    box-shadow: 0 0 25px rgba(191, 0, 255, 0.5);
+}
+
+.offer-cta:hover {
+    animation-duration: 2s;
+    box-shadow: 0 0 35px rgba(191, 0, 255, 0.7);
+    filter: brightness(1.1);
+}
